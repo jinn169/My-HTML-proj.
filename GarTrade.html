@@ -1,0 +1,2843 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GARTRADE - Simulated Trading Platform</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        
+        :root {
+            --primary-color: #00d9ff; 
+            --primary-hover: #00b8d4;
+            --secondary-color: #7c3aed; 
+            --success-color: #10b981; 
+            --danger-color: #ef4444; 
+            --warning-color: #f59e0b; 
+            --bg-dark: #0f172a; 
+            --bg-darker: #020617;
+            --bg-card: #1e293b;
+            --text-light: #f1f5f9;
+            --text-muted: #94a3b8;
+            --border-color: #334155;
+            --neon-glow: 0 0 10px rgba(0, 217, 255, 0.5);
+            --verified-badge: #10b981;
+        }
+
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            min-height: 100vh; 
+            background-color: #121212; 
+            background-image: url('C:/Users/Mary Jane/Downloads/966690f4-9a35-42ed-9544-de476ea98c84.jfif');
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            background-size: cover;
+            color: var(--text-light);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        @media (max-width: 768px) {
+            body { font-size: 14px; }
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: 'Inter', sans-serif;
+            font-weight: 600;
+        }
+
+        h2 {
+            color: var(--text-light);
+            font-size: 1.75rem;
+        }
+
+        .hidden { display: none !important; }
+
+        #loginContainer {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .login-box-container {
+            width: 900px;
+            max-width: 95%;
+            background: rgba(15, 23, 42, 0.95); 
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8), var(--neon-glow);
+            display: flex;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .login-box-container {
+                flex-direction: column;
+            }
+        }
+
+        .info {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+            color: #fff;
+            padding: 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5); 
+        }
+
+        .info h1 { 
+            font-size: 2.5rem; 
+            margin-bottom: 10px;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
+        }
+
+        .info p { font-size: 1.125rem; line-height: 1.6; }
+
+        .form-box { 
+            flex: 1; 
+            padding: 40px;
+            background: var(--bg-card);
+        }
+
+        .form-box h2 { 
+            margin-bottom: 20px; 
+            color: var(--primary-color);
+            text-shadow: var(--neon-glow);
+        }
+
+        .form-box input {
+            width: 100%;
+            padding: 12px 16px;
+            margin-bottom: 15px;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+            font-size: 15px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-box input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .form-box button {
+            width: 100%;
+            padding: 12px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            border: none;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            box-shadow: var(--neon-glow);
+        }
+
+        .form-box button:hover { 
+            transform: translateY(-2px);
+            box-shadow: 0 0 20px rgba(0, 217, 255, 0.8);
+        }
+
+        .switch { 
+            margin-top: 15px; 
+            text-align: center; 
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .switch a {
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+
+        .switch a:hover {
+            color: var(--primary-hover);
+        }
+
+        .message { 
+            margin-top: 10px; 
+            font-size: 14px;
+            padding: 8px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .link-forgot {
+            text-align: right;
+            margin-top: -10px; 
+            margin-bottom: 15px; 
+            font-size: 14px;
+        }
+
+        .link-forgot a {
+            color: var(--primary-color);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--bg-darker) 0%, var(--bg-dark) 100%);
+            padding: 15px 30px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 217, 255, 0.2);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid var(--primary-color);
+            position: sticky;
+            top: 0;
+            z-index: 999;
+        }
+
+        @media (max-width: 768px) {
+            .header {
+                flex-wrap: wrap;
+                padding: 10px 15px;
+            }
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: var(--neon-glow);
+        }
+        
+        .header nav {
+            display: flex;
+            gap: 18px;
+            flex-wrap: wrap;
+        }
+
+        .header nav a {
+            color: var(--text-light);
+            text-decoration: none;
+            padding: 10px 14px;
+            margin: 0;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            border-radius: 6px;
+            font-size: 0.9rem;
+        }
+
+        .header nav a:hover {
+            color: var(--primary-color);
+            background: rgba(0, 217, 255, 0.1);
+        }
+        
+        @media (max-width: 768px) {
+            .header nav {
+                width: 100%;
+                justify-content: center;
+                order: 3;
+                margin-top: 10px;
+            }
+        }
+
+        .user-actions input[type="text"] {
+            padding: 8px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            width: 200px;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+        }
+
+        @media (max-width: 768px) {
+            .user-actions input[type="text"] {
+                width: 150px;
+            }
+        }
+
+        .user-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .icon, .profile-glyph {
+            cursor: pointer;
+            font-size: 20px;
+            padding: 8px;
+            line-height: 1; 
+            vertical-align: middle;
+            font-style: normal; 
+            transition: all 0.3s ease;
+            border-radius: 6px;
+        }
+
+        .icon:hover {
+            background: rgba(0, 217, 255, 0.1);
+            transform: scale(1.1);
+        }
+
+        .dropdown-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            top: 40px; 
+            right: 0;
+            background: var(--bg-card);
+            min-width: 320px;
+            max-height: 500px;
+            overflow-y: auto;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.8), var(--neon-glow);
+            z-index: 1001;
+            padding: 8px 12px;
+            border-radius: 12px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .dropdown-menu {
+                min-width: 280px;
+                max-height: 400px;
+            }
+        }
+
+        .dropdown-menu a {
+            color: var(--text-light);
+            padding: 8px 12px;
+            text-decoration: none;
+            display: block;
+            transition: background 0.3s;
+        }
+
+        .dropdown-menu a:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dropdown-menu h4 {
+            margin: 8px 12px 10px;
+            color: var(--primary-color);
+            padding-bottom: 6px;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .dropdown-menu p, .dropdown-menu hr {
+            margin: 5px 16px;
+        }
+        
+        .notification-badge {
+            position: absolute;
+            top: 5px; 
+            right: 0px;
+            background: linear-gradient(135deg, var(--danger-color), #dc2626);
+            color: white;
+            border-radius: 50%;
+            padding: 3px 7px;
+            font-size: 11px;
+            font-weight: 700;
+            line-height: 1;
+            z-index: 1002;
+            pointer-events: none;
+            box-shadow: 0 0 10px var(--danger-color);
+        }
+        
+        .notification-panel h4 {
+            margin: 0 16px 10px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            color: var(--primary-color);
+        }
+
+        .notification-item, .offer-item {
+            padding: 12px 16px;
+            border-bottom: 1px solid var(--border-color);
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .notification-item:hover, .offer-item:hover {
+            background: rgba(0, 217, 255, 0.05);
+        }
+
+        .notification-item:last-child, .offer-item:last-child {
+            border-bottom: none;
+        }
+
+        .notification-item strong, .offer-item strong {
+            color: var(--primary-color);
+        }
+
+        .notification-actions, .offer-actions {
+            margin-top: 8px;
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .notification-actions .btn, .offer-actions .btn {
+            padding: 6px 12px;
+            font-size: 12px;
+        }
+        
+        .profile-glyph {
+            text-align: center;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: var(--bg-dark); 
+            color: var(--primary-color);
+            font-size: 20px;
+            font-weight: 700;
+            line-height: 1; 
+            text-shadow: var(--neon-glow);
+        }
+        
+        .header-profile-photo {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            vertical-align: middle;
+            transition: all 0.3s;
+            display: flex; 
+            overflow: hidden;
+            background: var(--bg-dark);
+            box-shadow: var(--neon-glow);
+        }
+
+        .header-profile-photo:hover {
+            border-color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .header-profile-photo img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 50%;
+        }
+
+        .profile-photo-container {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 0 16px 12px;
+            border-bottom: 2px solid var(--primary-color);
+            margin-bottom: 10px;
+        }
+
+        .profile-photo {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .profile-photo.profile-glyph {
+            font-size: 24px; 
+            border: 2px solid var(--primary-color);
+        }
+
+        .settings-photo-preview {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 3px solid var(--primary-color);
+            display: block;
+            margin: 10px auto;
+            box-shadow: var(--neon-glow);
+        }
+
+        .verified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--verified-badge);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+
+        .unverified-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+            background: var(--warning-color);
+            color: white;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            margin-left: 6px;
+        }
+
+        .app-content-container {
+            max-width: 1800px; 
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        
+        .security-banner {
+            background: linear-gradient(135deg, rgb(0, 0, 0), rgba(124, 58, 237, 0.1));
+            border: 1px solid var(--primary-color);
+            padding: 15px;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: 500;
+            color: var(--text-light);
+            box-shadow: var(--neon-glow);
+        }
+
+        .security-banner strong {
+            color: var(--success-color);
+        }
+
+        .section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--primary-color);
+        }
+
+        .section-header h2 {
+            margin: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-toggle {
+            cursor: pointer;
+            color: var(--primary-color);
+            font-size: 1.2rem;
+            transition: transform 0.3s;
+        }
+
+        .section-toggle:hover {
+            transform: scale(1.2);
+        }
+
+        .trade-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        @media (max-width: 768px) {
+            .trade-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .trade-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s ease;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .trade-item:hover, .trade-item.active {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.7), var(--neon-glow);
+            border-color: var(--primary-color);
+        }
+
+        .trade-item.active {
+            border: 2px solid var(--primary-color);
+        }
+
+        .trade-item img {
+            width: 100%;
+            height: 160px;
+            object-fit: cover;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .trade-item h3 {
+            margin: 12px 15px 8px;
+            font-size: 1.125rem;
+            color: var(--primary-color);
+        }
+
+        .trade-item p {
+            margin: 0 15px 8px;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .trade-item .price {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--success-color);
+            margin-bottom: 10px;
+        }
+        
+        .trade-item-buttons {
+            display: flex;
+            gap: 6px;
+            margin: 0 15px 15px;
+        }
+
+        .trade-item button {
+            flex: 1; 
+            padding: 10px;
+            border: none;
+            border-radius: 8px;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-weight: 600;
+            font-size: 14px;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .trade-item button:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 217, 255, 0.5);
+        }
+
+        .trade-item button:disabled {
+            background: var(--text-muted);
+            cursor: not-allowed;
+            opacity: 0.5;
+        }
+
+        .trade-item.sold {
+            opacity: 0.6;
+            pointer-events: none;
+        }
+
+        .trade-item.sold::after {
+            content: 'SOLD';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-25deg);
+            font-size: 4rem;
+            font-weight: 900;
+            color: var(--danger-color);
+            opacity: 0.9;
+            padding: 10px 20px;
+            border: 4px solid var(--danger-color);
+            border-radius: 12px;
+            z-index: 10;
+            line-height: 1;
+            text-shadow: 0 0 20px var(--danger-color);
+        }
+
+        .history-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            padding: 15px;
+            margin-bottom: 15px;
+            display: flex;
+            gap: 15px;
+            align-items: center;
+            transition: all 0.3s;
+        }
+
+        .history-item:hover {
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .history-item img {
+            width: 100px;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            border: 1px solid var(--border-color);
+        }
+
+        @media (max-width: 768px) {
+            .history-item {
+                flex-direction: column;
+            }
+            .history-item img {
+                width: 100%;
+                height: 150px;
+            }
+        }
+
+        .history-details {
+            flex: 1;
+        }
+
+        .history-details h4 {
+            margin: 0 0 8px 0;
+            color: var(--primary-color);
+            font-size: 1.125rem;
+        }
+
+        .history-details p {
+            margin: 4px 0;
+            font-size: 14px;
+            color: var(--text-muted);
+        }
+
+        .history-date {
+            color: var(--text-muted);
+            font-size: 12px;
+            font-style: italic;
+        }
+
+        /* Action Button */
+        #actionBtn {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            border: none;
+            color: white;
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            font-size: 36px;
+            line-height: 64px;
+            text-align: center;
+            cursor: pointer;
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.5), var(--neon-glow);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+
+        #actionBtn:hover {
+            transform: translateX(-50%) scale(1.1) rotate(90deg);
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7), 0 0 30px var(--primary-color);
+        }
+
+        @media (max-width: 768px) {
+            #actionBtn {
+                bottom: 20px;
+                left: 50%;
+                transform: translateX(-50%);
+                width: 56px;
+                height: 56px;
+                font-size: 32px;
+            }
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background: rgba(0, 0, 0, 0.85);
+            padding-top: 60px;
+        }
+
+        .modal-content {
+            background: var(--bg-card);
+            margin: 3% auto;
+            padding: 25px;
+            border: 1px solid var(--primary-color);
+            width: 90%;
+            max-width: 600px;
+            border-radius: 16px;
+            box-shadow: 0 10px 50px rgba(0, 0, 0, 0.9), var(--neon-glow);
+            position: relative;
+        }
+
+        @media (max-width: 768px) {
+            .modal-content {
+                width: 95%;
+                padding: 20px;
+                margin: 5% auto;
+            }
+        }
+
+        #dmModal .modal-content {
+            max-width: 900px;
+        }
+        
+        #dmContactListPanel h4 {
+            margin: 0;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+            padding-top: 5px;
+            color: var(--primary-color);
+        }
+
+        .dm-contact-item {
+            padding: 10px;
+            cursor: pointer;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.3s;
+            border-radius: 6px;
+            margin: 4px 0;
+        }
+
+        .dm-contact-item:hover {
+            background: rgba(0, 217, 255, 0.1);
+            color: var(--primary-color);
+        }
+
+        .dm-contact-item.active-chat {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+        }
+
+        .modal-content h3, .modal-content h4 {
+            color: var(--primary-color);
+            margin-top: 15px;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 8px;
+        }
+
+        .close {
+            color: var(--text-muted);
+            float: right;
+            font-size: 32px;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: var(--danger-color);
+            text-decoration: none;
+            cursor: pointer;
+            transform: scale(1.2);
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 6px;
+            font-weight: 600;
+            color: var(--text-light);
+        }
+
+        .form-group input, 
+        .form-group textarea, 
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            box-sizing: border-box;
+            background: var(--bg-dark);
+            color: var(--text-light);
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: var(--neon-glow);
+        }
+
+        .modal-buttons {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            padding: 10px 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+            font-size: 14px;
+        }
+
+        .btn-primary { 
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            box-shadow: var(--neon-glow);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 16px rgba(0, 217, 255, 0.5);
+        }
+
+        .btn-success { 
+            background: var(--success-color); 
+            color: white; 
+        }
+
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-2px);
+        }
+
+        .btn-warning { 
+            background: var(--warning-color); 
+            color: white; 
+        }
+
+        .btn-warning:hover {
+            background: #d97706;
+            transform: translateY(-2px);
+        }
+
+        .btn-delete { 
+            background: var(--danger-color); 
+            color: white; 
+        }
+
+        .btn-delete:hover {
+            background: #dc2626;
+            transform: translateY(-2px);
+        }
+
+        .btn-secondary { 
+            background: var(--text-muted); 
+            color: white; 
+        }
+
+        .btn-secondary:hover {
+            background: #64748b;
+            transform: translateY(-2px);
+        }
+
+        .paymaya-box {
+            border: 2px solid var(--primary-color);
+            padding: 20px;
+            background: rgba(0, 217, 255, 0.1);
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: var(--neon-glow);
+        }
+
+        .paymaya-box h5 {
+            color: var(--primary-color);
+            margin-bottom: 10px;
+            font-size: 1.125rem;
+        }
+
+        #dmLayout {
+            display: flex;
+            gap: 15px;
+            max-height: 500px;
+            overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+            #dmLayout {
+                flex-direction: column;
+                max-height: 600px;
+            }
+
+            #dmContactListPanel {
+                max-width: 100% !important;
+                max-height: 150px;
+                border-right: none !important;
+                border-bottom: 1px solid var(--border-color);
+                padding-bottom: 10px !important;
+            }
+
+            #dmChatViewPanel {
+                padding-left: 0 !important;
+                max-height: 400px;
+            }
+        }
+
+        #dmContactListPanel {
+            flex: 1;
+            max-width: 220px;
+            border-right: 1px solid var(--border-color);
+            padding-right: 10px;
+            overflow-y: auto;
+        }
+
+        #dmChatViewPanel {
+            flex: 3;
+            padding-left: 10px;
+            overflow-y: auto;
+        }
+
+        #chatHistory {
+            height: 320px;
+            overflow-y: auto;
+            border: 1px solid var(--border-color);
+            padding: 12px;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            background: var(--bg-dark);
+        }
+
+        @media (max-width: 768px) {
+            #chatHistory {
+                height: 250px;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--bg-dark);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary-color);
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-hover);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        .loading {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+        }
+
+        .empty-state-icon {
+            font-size: 4rem;
+            margin-bottom: 15px;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="loginContainer">
+        <div class="login-box-container">
+            <div class="info">
+                <h1>GarTrade</h1>
+                <p>Connect, trade, and grow your marketplace.
+                <br />A simple platform inspired by social trading.</p>
+            </div>
+
+            <div class="form-box">
+                <div id="loginBox">
+                    <h2>Login</h2>
+                    <input type="text" id="loginIdentifier" placeholder="Enter your username or email" />
+                    <input type="password" id="loginPassword" placeholder="Password" />
+
+                    <div class="link-forgot"><a onclick="forgotPassword()">Forgot Password?</a></div>
+
+                    <button onclick="login()">Log In</button>
+                    <div class="message" id="loginMsg"></div>
+                    <div class="switch">Don't have an account? <a onclick="showSignup()">Sign Up</a></div>
+                </div>
+
+                <div id="signupBox" class="hidden">
+                    <h2>Sign Up</h2>
+                    <input type="text" id="signupName" placeholder="Full Name" />
+                    <input type="text" id="signupUsername" placeholder="Username (optional)" />
+                    <input type="email" id="signupEmail" placeholder="Email" />
+                    <input type="password" id="signupPassword" placeholder="Password" />
+                    <button onclick="signup()">Create Account</button>
+                    <div class="message" id="signupMsg"></div>
+                    <div class="switch">Already have an account? <a onclick="showLogin()">Log In</a></div>
+                </div>
+
+                <div id="forgotBox" class="hidden">
+                    <h2>Forgot Password</h2>
+                    <p style="color:var(--text-muted);">Enter your username or email to reset your password.</p>
+                    <input type="text" id="forgotIdentifier" placeholder="Username or email" />
+                    <div style="margin-top:8px; display:flex; gap:8px;">
+                        <button class="btn btn-secondary" onclick="showLogin()" style="flex:1;">Back to Login</button>
+                        <button class="btn btn-primary" onclick="sendPasswordResetFromTab()" style="flex:2;">Send Reset Link</button>
+                    </div>
+                    <div class="message" id="forgotMsg" style="margin-top:10px;"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="appContainer" class="hidden">
+        <div class="header">
+            <div class="logo">GARTRADE</div>
+            <nav>
+                <a href="#" onclick="scrollToSection('tradeListingsSection'); return false;">Home</a>
+                
+                <!-- Only Home and About kept per user request -->
+                <a href="#" onclick="openModal('aboutModal'); return false;">About</a>
+                <a href="#" onclick="openModal('privacyModal'); return false;">Privacy</a>
+                
+            </nav>
+            <div class="user-actions">
+                <input type="text" id="searchBar" placeholder="Search trades...">
+                
+                <span class="icon" onclick="openDmModal()" title="Direct Messages">💬</span>
+
+                <div class="dropdown-container">
+                    <span id="notificationBadge" class="notification-badge" style="display: none;"></span>
+                    <span id="notificationIcon" class="icon" onclick="toggleDropdown('notificationsDropdown')" title="Notifications">🔔</span> 
+                    <div id="notificationsDropdown" class="dropdown-menu notification-panel">
+                        <h4>Notifications (<span id="notificationCount">0</span>)</h4>
+                        <div id="notificationContent">
+                            <div style="text-align: center; padding: 10px; color: var(--text-muted);">No new notifications.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="dropdown-container">
+                    <span id="offersIcon" class="icon" onclick="toggleDropdown('offersDropdown')" title="Trade Offers">📥</span>
+                    <div id="offersDropdown" class="dropdown-menu">
+                        <h4>Trade Offers</h4>
+                        <div id="offersDropdownContent" style="padding: 12px 16px; color: var(--text-muted); display:flex; flex-direction:column; gap:10px;">No offers.</div>
+                    </div>
+                </div>
+
+                <div class="dropdown-container">
+                    <span id="historyIcon" class="icon" onclick="toggleDropdown('historyDropdown')" title="Recent Trade History">📜</span>
+                    <div id="historyDropdown" class="dropdown-menu">
+                        <h4>My History</h4>
+                        <div id="historyDropdownContent" style="padding: 12px 16px; color: var(--text-muted); display:flex; flex-direction:column; gap:10px;">No history.</div>
+                    </div>
+                </div>
+
+                <div class="dropdown-container">
+                    <span id="profileIconWrapper" class="icon header-profile-photo" onclick="toggleDropdown('profileDropdown')">
+                        <span id="headerProfileIcon" class="profile-glyph" style="display: none;"></span>
+                        <img id="headerProfilePhoto" src="" alt="Profile Icon">
+                    </span>
+
+                    <div id="profileDropdown" class="dropdown-menu">
+                        <div class="profile-photo-container">
+                            <span id="dropdownProfileIcon" class="profile-glyph profile-photo" style="display: none;"></span>
+                            <img id="dropdownProfilePhoto" class="profile-photo" src="" alt="Profile Photo">
+                            <div>
+                                <p id="profileDropdownName" style="margin: 0; font-weight: 700; color: var(--primary-color);">Guest</p>
+                                <span id="verificationStatusBadge"></span>
+                            </div>
+                        </div>
+                        <a href="#" onclick="openModal('verificationModal'); toggleDropdown('profileDropdown'); return false;">✓ Verify Account</a>
+                        <a href="#" onclick="openModal('settingsModal'); toggleDropdown('profileDropdown'); return false;">⚙ Settings</a>
+                        <a href="#" onclick="handleLogout(); toggleDropdown('profileDropdown'); return false;">🚪 Logout</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="app-content-container">
+            <div class="security-banner">
+                🛡 Notice: This platform is currently simulated to test its effectiveness through simulated trades.
+            </div>
+            
+            <div id="tradeListingsSection">
+                <div class="section-header">
+                    <h2>🎮 Active Trade Listings</h2>
+                </div>
+                <div class="trade-grid" id="tradeList"></div>
+            </div>
+
+        </div>
+
+        <button id="actionBtn" title="Add a new listing">+</button>
+
+        <div id="verificationModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('verificationModal')">&times;</span>
+                <h3>📇 Identity Verification</h3>
+                <p>To ensure platform security and enable trading, please upload a government-issued ID. Email verification alone is not sufficient.</p>
+
+                <div class="form-group">
+                    <label>Your Email</label>
+                    <input type="email" id="verifyEmail" readonly style="background: var(--bg-dark);">
+                </div>
+
+                <div class="form-group">
+                    <label for="verificationIdUpload">Upload Valid ID (JPG, PNG, PDF)</label>
+                    <input type="file" id="verificationIdUpload" accept="image/*,application/pdf" onchange="handleVerificationIdUpload(event)">
+                    <div style="margin-top:8px; text-align:center;">
+                        <img id="verificationIdPreview" src="" alt="ID Preview" style="max-width:160px; max-height:120px; display:none; border:1px solid var(--border-color); border-radius:8px;" />
+                    </div>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">We will store the uploaded ID securely in your browser's localStorage for verification purposes only (simulated).</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="verificationCode">(Optional) Enter Verification Code</label>
+                    <input type="text" id="verificationCode" placeholder="Enter 6-digit code sent to your email (optional)">
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Simulated code: <strong style="color: var(--primary-color);">123456</strong></p>
+                </div>
+
+                <div class="modal-buttons" style="justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('verificationModal')">Cancel</button>
+                    <button type="button" class="btn btn-success" onclick="verifyAccount()">Verify Account</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="passwordResetModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('passwordResetModal')">&times;</span>
+                <h3>🔁 Password Reset</h3>
+                <p>Enter your username or email to receive a password reset link.</p>
+
+                <div class="form-group">
+                    <label for="passwordResetEmail">Username or Email</label>
+                    <input type="text" id="passwordResetEmail" placeholder="username or email">
+                </div>
+
+                <div class="modal-buttons" style="justify-content:flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('passwordResetModal')">Cancel</button>
+                    <button type="button" class="btn btn-primary" onclick="sendPasswordReset()">Send Reset Link</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="dmModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('dmModal')">&times;</span>
+                <h3 style="border-bottom: 2px solid var(--primary-color); padding-bottom: 8px;">💬 Direct Messages</h3>
+                
+                <div id="dmLayout">
+                    <div id="dmContactListPanel">
+                        <h4>Contacts</h4>
+                    </div>
+                    
+                    <div id="dmChatViewPanel">
+                        <p style="text-align: center; margin-top: 100px; color: var(--text-muted);">
+                            Select a contact to start chatting.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="manageTradeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('manageTradeModal')">&times;</span>
+                <h3 id="manageTradeTitleDisplay">Manage Listing</h3>
+                <form id="editTradeForm">
+                    <input type="hidden" id="manageTradeId">
+
+                    <div class="form-group">
+                        <label for="editTradeTitle">Title</label>
+                        <input type="text" id="editTradeTitle" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTradeDescription">Description</label>
+                        <textarea id="editTradeDescription" rows="3" required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editTradeValue">Trade Value</label>
+                        <input type="text" id="editTradeValue" placeholder="$50">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="editMinBidAmount">Min Bid Amount (for Auction)</label>
+                        <input type="text" id="editMinBidAmount" placeholder="$5 (leave blank if not auction)">
+                    </div>
+
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-delete" onclick="confirmDeleteTrade()">Delete Listing</button>
+                        <div style="display: flex; gap: 10px;">
+                            <button type="button" id="markSoldBtn" class="btn btn-warning">Mark as Active</button>
+                            <button type="submit" class="btn btn-success">Save Changes</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="tradeRequestModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('tradeRequestModal')">&times;</span>
+                <h3 id="tradeRequestModalTitle">Trade Request / Place Bid</h3>
+                <p id="tradeRequestPreview"></p>
+                <form id="tradeRequestForm">
+                    <input type="hidden" id="requestTradeId">
+                    <div class="form-group">
+                        <label for="requestOffer">Your Offer</label>
+                        <textarea id="requestOffer" rows="3" placeholder="I offer my Rare Skin Bundle for this..."></textarea>
+                    </div>
+                    <div class="modal-buttons">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('tradeRequestModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Send Request/Bid</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="addTradeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('addTradeModal')">&times;</span>
+                <h3>Add New Listing</h3>
+                <form id="addTradeForm">
+                    <div class="form-group">
+                        <label for="newTradeTitle">Title of Item/Service</label>
+                        <input type="text" id="newTradeTitle" required placeholder="e.g., Rare Mobile Legends Skin">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newTradeDescription">Description</label>
+                        <textarea id="newTradeDescription" rows="3" required placeholder="Details about the item..."></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newTradeImage">Upload Item Image (Optional)</label>
+                        <input type="file" id="newTradeImage" accept="image/*">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newTradeValue">Approximate Trade Value (e.g., $25)</label>
+                        <input type="text" id="newTradeValue" placeholder="$">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="newMinBidAmount">Minimum Bid Amount (Optional - for Auction)</label>
+                        <input type="text" id="newMinBidAmount" placeholder="$5 (Leave blank for simple trade)">
+                    </div>
+
+                    <div class="modal-buttons" style="justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('addTradeModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Add Listing</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('settingsModal')">&times;</span>
+                <h3 id="settingsModalTitle">⚙ User Settings</h3>
+                <form id="userSettingsForm">
+                    
+                    <h4>Profile Photo</h4>
+                    <div style="text-align: center;">
+                        <span id="settingsProfileIcon" class="profile-glyph settings-photo-preview" style="display: none;"></span>
+                        <img id="settingsProfilePhoto" class="settings-photo-preview" src="" alt="Profile Photo Preview">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="profilePhotoUpload">Upload Photo</label>
+                        <input type="file" id="profilePhotoUpload" accept="image/*" onchange="handlePhotoUpload(event)">
+                    </div>
+                    
+                    <h4>Profile Management</h4>
+                    <div class="form-group">
+                        <label for="settingUsername">Username</label>
+                        <input type="text" id="settingUsername" value="" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="settingEmail">Email Address</label>
+                        <input type="email" id="settingEmail" value="">
+                    </div>
+
+                    <h4>Preferences</h4>
+                    <div class="form-group">
+                        <label for="settingNotifications">Receive Trade Notifications</label>
+                        <select id="settingNotifications">
+                            <option value="enabled">Enabled (Email & In-App)</option>
+                            <option value="inapp">In-App Only</option>
+                            <option value="disabled">Disabled</option>
+                        </select>
+                    </div>
+
+                    <h4>Security Management</h4>
+                    <div class="form-group">
+                        <label for="settingCurrentPassword">Current Password</label>
+                        <input type="password" id="settingCurrentPassword" placeholder="Enter current password">
+                    </div>
+                    <div class="form-group">
+                        <label for="settingNewPassword">New Password</label>
+                        <input type="password" id="settingNewPassword" placeholder="Enter new password (min 6 characters)">
+                    </div>
+                    <div class="form-group">
+                        <button type="button" class="btn btn-warning" onclick="changePassword()" style="width: 100%;">Change Password</button>
+                        <div class="message" id="passwordChangeMsg" style="margin-top: 10px;"></div>
+                    </div>
+                    
+                    <div class="modal-buttons" style="justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('settingsModal')">Cancel</button>
+                        <button type="submit" class="btn btn-success">Save Settings</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div id="aboutModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('aboutModal')">&times;</span>
+                <h3>✨ About GARTRADE: Secured Game Trading</h3>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    GARTRADE is the premier dedicated platform for seamless game asset trading. We allow users to securely trade in-game items, accounts, and services with other players globally.
+                </p>
+
+                <h4>🤝 Our Promise: Secured and Balanced Treatment</h4>
+                <p>
+                    We prioritize trust and fairness. Every trade offer initiated through our system is transparent, giving both the item owner and the requester full control via the notification panel.
+                </p>
+                <ul>
+                    <li><strong>Security:</strong> All transactions are logged and handled via our protected notification system.</li>
+                    <li><strong>Balance:</strong> We encourage fair market value trading with transparent pricing.</li>
+                    <li><strong>Verification:</strong> Email verification ensures authentic users and reduces fraud.</li>
+                </ul>
+                <p style="text-align: center; margin-top: 20px;">
+                    Start trading with confidence today!
+                </p>
+            </div>
+        </div>
+        
+        <div id="privacyModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('privacyModal')">&times;</span>
+                <h3>🔒 GARTRADE Privacy Policy</h3>
+                
+                <p style="font-size: 16px; line-height: 1.6;">
+                    GARTRADE is committed to protecting your privacy and securing your personal information. We do not share any user trade history or financial authorization data with third parties. All data related to bids, offers, and payment authorization is encrypted and used solely for facilitating secured transactions.
+                </p>
+
+                <p style="text-align: center; margin-top: 20px;">
+                    <a href="#" onclick="alert('See our full Terms of Service')" style="color: var(--primary-color);">Review our full TOS</a>
+                </p>
+            </div>
+        </div>
+
+        <div id="authorizationModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('authorizationModal')">&times;</span>
+                <h3>💳 Secure Payment Authorization</h3>
+                
+                <p>To finalize the secured trade for <strong><span id="authItemTitle"></span></strong>, you must authorize the transaction amount with our payment gateway.</p>
+                <div class="paymaya-box">
+                    <h5>Simulated Payment Gateway</h5>
+                    <p>Transaction Amount: <strong id="authTransactionAmount">$0.00</strong></p>
+                </div>
+                <form id="paymentForm">
+                    <input type="hidden" id="authNotificationId">
+                    <div class="form-group">
+                        <label for="cardNumber">Card Number (Simulated)</label>
+                        <input type="text" id="cardNumber" value="4111 **** **** 1111" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label for="cardCVC">CVC</label>
+                        <input type="text" id="cardCVC" placeholder="123" required>
+                    </div>
+                    <div class="modal-buttons" style="justify-content: flex-end;">
+                        <button type="button" class="btn btn-secondary" onclick="closeModal('authorizationModal')">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Authorize Payment</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div id="verificationTradeModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal('verificationTradeModal')">&times;</span>
+                <h3>✅ Trade Verification</h3>
+                
+                <p>Payment for <strong><span id="verItemTitle"></span></strong> has been successfully processed.</p>
+                <p>To complete the secured trade, please click "Finalize Trade" below.</p>
+                
+                <div class="modal-buttons" style="justify-content: flex-end;">
+                    <button type="button" class="btn btn-secondary" onclick="closeModal('verificationTradeModal')">Cancel</button>
+                    <button type="button" id="finalVerifyButton" class="btn btn-success">Finalize Trade</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentUser = "ADMIN";
+        let loggedUserEmail = "user1@gartrade.com";
+        let isVerified = false;
+        let loginAttempts = 0;
+        let defaultProfilePhotoUrl = "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
+
+        const allUsers = [currentUser, "BotA", "BotB", "BotC", "BotD"];
+        let activeTradeId = null;
+        let activeDmUser = null;
+        let searchFilter = "";
+        let pendingTradeNotification = null;
+        let tradeHistory = [];
+        
+        let trades = [
+            { id: 1, title: "Mobile Legends Account", description: "High Level, 100+ heroes, 3 Mythic skins.", tradeValue: "$100", minBidAmount: "", image: "MLAccount", uploadedImageUrl: "https://paas-file-pro.igv.com/shop/66bfa9e6990024711700e576_702x302.jpg", owner: "User1", sold: false },
+            { id: 2, title: "Diamonds Pack", description: "1000 ML Diamonds ready for transfer.", tradeValue: "$10", minBidAmount: "", image: "MLDiamonds", uploadedImageUrl: "https://pic.bittopup.com/apiUpload/2ac7e02576fb500bb93c6d754f82ff9f.jpg", owner: "BotA", sold: false },
+            { id: 3, title: "Rare Skin Bundle", description: "Exclusive ML skins: KOF set, Legends, Collector.", tradeValue: "$250", minBidAmount: "", image: "MLSkinBundle", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1EMpRnjsgst4UEbWp-QLYzLFCbXkhaRL_PA&s", owner: "BotB", sold: false },
+            { id: 4, title: "PUBG UC Pack", description: "5000 Unknown Cash (UC) available.", tradeValue: "$50", minBidAmount: "$15", image: "PUBGUC", uploadedImageUrl: "https://i.redd.it/h6qanu70gha61.jpg", owner: "BotC", sold: false },
+            { id: 6, title: "Valorant Radiant Account", description: "Account with full access and max ranked.", tradeValue: "$500", minBidAmount: "$100", image: "ValAccount", uploadedImageUrl: "https://cdn-offer-photos.zeusx.com/ceaf35d9-9943-428f-a66b-71e4fabbbf51.png", owner: "BotA", sold: false },
+            { id: 7, title: "Apex Legends Heirloom", description: "Wraith's Kunai Heirloom available for trade.", tradeValue: "$150", minBidAmount: "", image: "ApexHeirloom", uploadedImageUrl: "https://fbi.cults3d.com/uploaders/16979428/illustration-file/f62d6e6d-4a95-41da-a4cc-066ceeb4b7a1/xoxo.png", owner: "BotD", sold: false },
+            { id: 8, title: "Free Fire Diamonds Pack", description: "2000 FF Diamonds ready for transfer.", tradeValue: "$20", minBidAmount: "", image: "FFDiamonds", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt9zNUSQhlyJ346uaglyEC182hvD1O9P8v5g&s", owner: "User1", sold: false },
+            { id: 10, title: "Legendary Loot Box Open", description: "I will open a fresh loot box on stream and transfer contents.", tradeValue: "$5", minBidAmount: "", image: "LegendaryLoot", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6mkAKhZqCH1-wwFsfJ5P27ekazcIE0vQJ7g&s", owner: "BotA", sold: false } 
+        ];
+
+        // Persisted trades + history handling
+        function saveTrades() {
+            try { localStorage.setItem('gartradeTrades', JSON.stringify(trades)); } catch (e) { console.error('Save trades failed', e); }
+        }
+
+        function saveTradeHistory() {
+            try { localStorage.setItem('gartradeHistory', JSON.stringify(tradeHistory)); } catch (e) { console.error('Save trade history failed', e); }
+        }
+
+        // Load persisted trades/history (if any)
+        try {
+            const _savedTrades = JSON.parse(localStorage.getItem('gartradeTrades'));
+            if (Array.isArray(_savedTrades) && _savedTrades.length) {
+                trades = _savedTrades;
+            } else {
+                localStorage.setItem('gartradeTrades', JSON.stringify(trades));
+            }
+
+            const _savedHistory = JSON.parse(localStorage.getItem('gartradeHistory'));
+            if (Array.isArray(_savedHistory) && _savedHistory.length) {
+                tradeHistory = _savedHistory;
+            } else {
+                localStorage.setItem('gartradeHistory', JSON.stringify(tradeHistory));
+            }
+        } catch (e) { console.error('Error reading persisted data', e); }
+
+        const imageMap = {
+            "MLAccount": "Mobile+Legends+Account+Screenshot",
+            "MLDiamonds": "Mobile+Legends+Diamonds+Pack",
+            "MLSkinBundle": "Mobile+Legends+Rare+Skin+Bundle",
+            "PUBGUC": "PUBG+Mobile+UC+Pack",
+            "ValAccount": "Valorant+Radiant+Account+Screenshot",
+            "ApexHeirloom": "Apex+Legends+Wraith+Kunai+Heirloom",
+            "FFDiamonds": "Free+Fire+Diamonds+Pack",
+            "LegendaryLoot": "Legendary+Loot+Box+Open"
+        };
+
+        let notifications = [];
+        let myOffers = []; 
+        const botUsers = ["BotA", "BotB", "BotC", "BotD"];
+        const offers = ["$50 cash offer", "My PUBG account for this", "I'll trade 10,000 in-game gold", "Trade plus $5", "My CS:GO knife skin"];
+
+
+        function findTrade(id) {
+            return trades.find(t => t.id === id);
+        }
+
+        function openModal(id) {
+            document.getElementById(id).style.display = "block";
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).style.display = "none";
+        }
+
+        function toggleDropdown(id) {
+            const dropdown = document.getElementById(id);
+            closeAllDropdowns(id);
+            if (dropdown.style.display === 'block') {
+                dropdown.style.display = 'none';
+            } else {
+                dropdown.style.display = 'block';
+                if (id === 'notificationsDropdown') {
+                    renderNotifications(true);
+                } else if (id === 'offersDropdown') {
+                    renderOffersDropdown();
+                } else if (id === 'historyDropdown') {
+                    renderHistoryDropdown();
+                }
+            }
+        }
+
+        function closeAllDropdowns(exceptId = null) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => {
+                if (menu.id !== exceptId) {
+                    menu.style.display = 'none';
+                }
+            });
+        }
+
+        function handleSearchInput(event) {
+            searchFilter = event.target.value.toLowerCase();
+            renderTrades();
+        }
+        
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) {
+                    resolve(null); 
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = (e) => resolve(e.target.result);
+                reader.onerror = (error) => reject(error);
+                reader.readAsDataURL(file);
+            });
+        }
+
+        function scrollToSection(sectionId) {
+            const section = document.getElementById(sectionId);
+            if (section) {
+                section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        }
+
+        function toggleSection(contentId) {
+            const content = document.getElementById(contentId);
+            const toggle = event.target;
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                toggle.textContent = '▼';
+            } else {
+                content.style.display = 'none';
+                toggle.textContent = '▶';
+            }
+        }
+
+        function showLogin() {
+            document.getElementById('loginBox').classList.remove('hidden');
+            document.getElementById('signupBox').classList.add('hidden');
+            document.getElementById('forgotBox').classList.add('hidden');
+            document.getElementById('loginMsg').textContent = '';
+            document.getElementById('signupMsg').textContent = '';
+        }
+
+        function showSignup() {
+            document.getElementById('loginBox').classList.add('hidden');
+            document.getElementById('signupBox').classList.remove('hidden');
+            document.getElementById('forgotBox').classList.add('hidden');
+            document.getElementById('loginMsg').textContent = '';
+            document.getElementById('signupMsg').textContent = '';
+        }
+
+        function showForgotPassword() {
+            document.getElementById('loginBox').classList.add('hidden');
+            document.getElementById('signupBox').classList.add('hidden');
+            document.getElementById('forgotBox').classList.remove('hidden');
+            document.getElementById('loginMsg').textContent = '';
+            document.getElementById('signupMsg').textContent = '';
+            document.getElementById('forgotMsg').textContent = '';
+        }
+        
+        function signup() {
+            const name = document.getElementById('signupName').value;
+            const username = document.getElementById('signupUsername') ? document.getElementById('signupUsername').value.trim() : '';
+            const email = document.getElementById('signupEmail').value;
+            const password = document.getElementById('signupPassword').value;
+            const msg = document.getElementById('signupMsg');
+
+            if (!name || !email || !password) {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'Please fill in all fields.';
+                return;
+            }
+
+            const user = { 
+                name,
+                username: username || name,
+                email, 
+                password, 
+                photoUrl: defaultProfilePhotoUrl, 
+                notifications: 'enabled',
+                verified: false
+            };
+
+            localStorage.setItem('gartradeUser', JSON.stringify(user));
+
+            msg.style.color = 'var(--success-color)';
+            msg.textContent = 'Account created! Please log in.';
+            setTimeout(showLogin, 1500);
+        }
+
+        function login() {
+            const identifier = document.getElementById('loginIdentifier').value.trim();
+            const password = document.getElementById('loginPassword').value;
+            const msg = document.getElementById('loginMsg');
+            msg.textContent = ''; 
+
+            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+
+            if (!storedUser) {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'No account found. Please sign up first.';
+                loginAttempts++;
+                checkLoginAttempts(msg);
+                return;
+            }
+
+            const matchesIdentifier = identifier === storedUser.email || identifier === storedUser.name || (storedUser.username && identifier === storedUser.username);
+
+            if (matchesIdentifier && password === storedUser.password) {
+                msg.style.color = 'var(--success-color)';
+                msg.textContent = 'Login successful! Welcome to GarTrade.';
+                loginAttempts = 0; 
+
+                const oldUser = currentUser; 
+                currentUser = storedUser.username || storedUser.name;
+                loggedUserEmail = storedUser.email;
+                isVerified = storedUser.verified || false;
+                defaultProfilePhotoUrl = storedUser.photoUrl || defaultProfilePhotoUrl; 
+
+                if (oldUser === "User1" && currentUser !== "User1") {
+                    trades.forEach(trade => {
+                        if (trade.owner === "User1") {
+                            trade.owner = currentUser;
+                        }
+                    });
+                    saveTrades();
+                }
+                updateUI();
+            
+                notifications = [];
+                initializeBotOffers();
+                
+                document.getElementById('loginContainer').style.display = 'none';
+                document.getElementById('appContainer').classList.remove('hidden');
+                
+                renderNotifications(true);
+
+            } else {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'Invalid email or password.';
+                loginAttempts++;
+                checkLoginAttempts(msg);
+            }
+        }
+
+        function checkLoginAttempts(msg) {
+            if (loginAttempts >= 3) {
+                msg.style.color = 'var(--warning-color)';
+                msg.textContent = 'Too many failed attempts. Redirecting to Forgot Password...';
+                setTimeout(() => {
+                    showForgotPassword();
+                    loginAttempts = 0;
+                }, 900);
+            }
+        }
+
+        function forgotPassword() {
+            showForgotPassword();
+        }
+
+        function sendPasswordReset() {
+            const identifier = document.getElementById('passwordResetEmail').value.trim();
+            const msg = document.getElementById('loginMsg');
+            if (!identifier) {
+                alert('Please enter your username or email.');
+                return;
+            }
+
+            // Resolve to an email if possible
+            let targetEmail = '';
+            if (identifier.includes('@')) {
+                targetEmail = identifier;
+            } else {
+                const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+                if (storedUser && (identifier === storedUser.username || identifier === storedUser.name)) {
+                    targetEmail = storedUser.email;
+                }
+            }
+
+            if (!targetEmail) {
+                alert('No account found for that username/email (simulated).');
+                return;
+            }
+
+            // Simulate sending reset
+            closeModal('passwordResetModal');
+            msg.style.color = 'var(--primary-color)';
+            msg.textContent = `Password reset link sent to ${targetEmail} (simulated).`;
+        }
+
+        function sendPasswordResetFromTab() {
+            const identifier = document.getElementById('forgotIdentifier').value.trim();
+            const forgotMsg = document.getElementById('forgotMsg');
+            forgotMsg.textContent = '';
+            if (!identifier) {
+                forgotMsg.style.color = 'var(--danger-color)';
+                forgotMsg.textContent = 'Please enter username or email.';
+                return;
+            }
+
+            document.getElementById('passwordResetEmail').value = identifier;
+            // Reuse sendPasswordReset logic
+            sendPasswordReset();
+            forgotMsg.style.color = 'var(--primary-color)';
+            forgotMsg.textContent = 'Password reset link sent (simulated).';
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                localStorage.removeItem('gartradeUser');
+                currentUser = "Guest"; 
+                loggedUserEmail = ""; 
+                isVerified = false;
+                defaultProfilePhotoUrl = "https://static.vecteezy.com/system/resources/thumbnails/020/765/399/small/default-profile-account-unknown-icon-black-silhouette-free-vector.jpg";
+
+                document.getElementById('loginContainer').style.display = 'flex';
+                document.getElementById('appContainer').classList.add('hidden');
+                document.getElementById('loginIdentifier').value = '';
+                document.getElementById('loginPassword').value = '';
+
+                updateUI(); 
+                activeTradeId = null;
+                notifications = []; 
+                myOffers = [];
+                renderNotifications(true); 
+            }
+        }
+
+        function verifyAccount() {
+            const fileInput = document.getElementById('verificationIdUpload');
+            const code = document.getElementById('verificationCode').value;
+
+            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
+                alert('Please upload a valid government-issued ID to complete verification.');
+                return;
+            }
+
+            const file = fileInput.files[0];
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const idDataUrl = e.target.result;
+                isVerified = true;
+                const storedUser = JSON.parse(localStorage.getItem('gartradeUser')) || {};
+                storedUser.verified = true;
+                storedUser.idDocument = idDataUrl; // store ID data (simulated, local only)
+                localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+
+                alert('✅ Account verified successfully with uploaded ID!');
+                closeModal('verificationModal');
+                updateVerificationBadge();
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateVerificationBadge() {
+            const badge = document.getElementById('verificationStatusBadge');
+            if (isVerified) {
+                badge.innerHTML = '<span class="verified-badge">✓ Verified</span>';
+            } else {
+                badge.innerHTML = '<span class="unverified-badge">⚠ Not Verified</span>';
+            }
+        }
+
+        function checkVerification(action) {
+            if (!isVerified) {
+                alert(`⚠ You must verify your account before you can ${action}. Click "Verify Account" in your profile menu.`);
+                return false;
+            }
+            return true;
+        }
+
+        function updateUI() {
+            document.getElementById('profileDropdownName').textContent = currentUser;
+            updateVerificationBadge();
+
+            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+            if (storedUser) {
+                document.getElementById('settingUsername').value = storedUser.username || storedUser.name;
+                document.getElementById('settingEmail').value = storedUser.email;
+                document.getElementById('settingNotifications').value = storedUser.notifications || 'enabled';
+                document.getElementById('verifyEmail').value = storedUser.email;
+            } else {
+                document.getElementById('settingUsername').value = 'Guest';
+                document.getElementById('settingEmail').value = '';
+                document.getElementById('settingNotifications').value = 'enabled';
+            }
+
+            renderTrades();
+            renderTradeHistory();
+            renderMyOffers();
+            // Also ensure header dropdowns are populated
+            renderOffersDropdown();
+            renderHistoryDropdown();
+            updateProfilePhotoUI();
+        }
+
+        function renderTrades() {
+            const listElement = document.getElementById('tradeList');
+            listElement.innerHTML = '';
+            
+            const filteredTrades = trades.filter(trade => 
+                !trade.sold && (
+                    trade.title.toLowerCase().includes(searchFilter) ||
+                    trade.description.toLowerCase().includes(searchFilter) ||
+                    trade.owner.toLowerCase().includes(searchFilter)
+                )
+            );
+
+            if (filteredTrades.length === 0) {
+                listElement.innerHTML = `<div class="empty-state">
+                    <div class="empty-state-icon">🔍</div>
+                    <p>No listings found matching: <strong>${searchFilter}</strong></p>
+                </div>`;
+                return;
+            }
+
+            filteredTrades.forEach(trade => {
+                const isOwner = trade.owner === currentUser;
+                
+                const imageKey = imageMap[trade.image] || trade.title.replace(/\s/g, '+');
+                const imageUrl = trade.uploadedImageUrl 
+                    ? trade.uploadedImageUrl 
+                    : `https://via.placeholder.com/300x150/00d9ff/ffffff?text=${imageKey}`; 
+
+                const tradeDiv = document.createElement('div');
+                tradeDiv.className = `trade-item ${activeTradeId === trade.id ? 'active' : ''}`;
+                tradeDiv.onclick = () => selectTrade(trade.id);
+
+                let actionButtonHTML;
+                if (isOwner) {
+                    actionButtonHTML = `
+                        <div class="trade-item-buttons">
+                            <button class="manage-btn" style="flex: 3;" onclick="event.stopPropagation(); openManageTradeModal(${trade.id})">Manage Listing</button>
+                        </div>
+                    `;
+                } else {
+                    actionButtonHTML = `
+                        <div class="trade-item-buttons">
+                            <button style="flex: 3;" onclick="event.stopPropagation(); openTradeRequestModal(${trade.id})">${trade.minBidAmount ? 'Place Bid' : 'Request Trade'}</button>
+                            <button style="flex: 1; background: var(--text-muted);" onclick="event.stopPropagation(); startMessage('${trade.owner}', 'Trade Offer for ${trade.title}');">💬</button>
+                        </div>
+                    `;
+                }
+
+                tradeDiv.innerHTML = `
+                    <img src="${imageUrl}" alt="${trade.title}">
+                    <div style="padding: 0 15px;">
+                        <h3>${trade.title}</h3>
+                        <p>${trade.description}</p>
+                        <p class="price">Value: ${trade.tradeValue || 'N/A'}</p>
+                        ${trade.minBidAmount ? `<p style="font-size: 12px; color: var(--danger-color); margin-top: -10px;">Min Bid: ${trade.minBidAmount}</p>` : ''}
+                        <p style="font-size: 12px; color: var(--text-muted); margin-bottom: 10px;">Owner: ${trade.owner}</p>
+                        ${actionButtonHTML}
+                    </div>
+                `;
+                listElement.appendChild(tradeDiv);
+            });
+        }
+
+        function selectTrade(id) {
+            activeTradeId = id;
+            renderTrades();
+        }
+
+        function renderTradeHistory() {
+            const content = document.getElementById('tradeHistoryContent');
+            const userHistory = tradeHistory.filter(h => h.seller === currentUser || h.buyer === currentUser);
+
+            if (content) {
+                if (userHistory.length === 0) {
+                    content.innerHTML = `<div class="empty-state">
+                        <div class="empty-state-icon">📜</div>
+                        <p>No completed trades yet.</p>
+                    </div>`;
+                } else {
+                    content.innerHTML = userHistory.map(history => `
+                        <div class="history-item">
+                            <img src="${history.imageUrl}" alt="${history.title}">
+                            <div class="history-details">
+                                <h4>${history.title}</h4>
+                                <p><strong>Seller:</strong> ${history.seller}</p>
+                                <p><strong>Buyer:</strong> ${history.buyer}</p>
+                                <p><strong>Value:</strong> ${history.value}</p>
+                                <p><strong>Offer:</strong> ${history.offer}</p>
+                                <p class="history-date">${history.date}</p>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            }
+
+            renderHistoryDropdown();
+        }
+
+        function renderMyOffers() {
+            const content = document.getElementById('tradeManagementContent');
+
+            const groupedOffers = {};
+            myOffers.forEach(offer => {
+                if (!groupedOffers[offer.tradeId]) {
+                    groupedOffers[offer.tradeId] = [];
+                }
+                groupedOffers[offer.tradeId].push(offer);
+            });
+
+            if (content) {
+                if (myOffers.length === 0) {
+                    content.innerHTML = `<div class="empty-state">
+                        <div class="empty-state-icon">📊</div>
+                        <p>No active offers on your listings.</p>
+                    </div>`;
+                } else {
+                    let html = '';
+                    for (const tradeId in groupedOffers) {
+                        const trade = findTrade(parseInt(tradeId));
+                        if (!trade) continue;
+
+                        const offersForTrade = groupedOffers[tradeId];
+                        html += `
+                            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 15px; margin-bottom: 20px;">
+                                <h4 style="color: var(--primary-color); margin-top: 0; border-bottom: 1px solid var(--border-color); padding-bottom: 8px;">
+                                    ${trade.title} (${offersForTrade.length} offer${offersForTrade.length > 1 ? 's' : ''})
+                                </h4>
+                        `;
+
+                        offersForTrade.forEach(offer => {
+                            html += `
+                                <div class="offer-item">
+                                    <p style="margin: 0;"><strong>${offer.fromUser}</strong> made an offer:</p>
+                                    <p style="margin: 5px 0; font-style: italic; color: var(--text-muted);">"${offer.offer}"</p>
+                                    <p style="margin: 5px 0; font-size: 12px; color: var(--text-muted);">Status: <strong>${offer.status}</strong></p>
+                                    <div class="offer-actions">
+                                        <button class="btn btn-success" onclick="handleOfferAction(${offer.id}, 'accept')">Accept</button>
+                                        <button class="btn btn-delete" onclick="handleOfferAction(${offer.id}, 'reject')">Reject</button>
+                                        <button class="btn btn-secondary" onclick="startMessage('${offer.fromUser}', 'Re: ${trade.title}')">Reply</button>
+                                    </div>
+                                </div>
+                            `;
+                        });
+
+                        html += '</div>';
+                    }
+                    content.innerHTML = html;
+                }
+            }
+
+            renderOffersDropdown();
+        }
+
+        function handleOfferAction(offerId, action) {
+            const offerIndex = myOffers.findIndex(o => o.id === offerId);
+            if (offerIndex === -1) return;
+
+            const offer = myOffers[offerIndex];
+            const trade = findTrade(offer.tradeId);
+
+            if (action === 'accept') {
+                alert(`✅ Offer accepted from ${offer.fromUser}! Proceeding to payment authorization.`);
+
+                const notification = {
+                    id: offer.id,
+                    owner: currentUser,
+                    fromUser: offer.fromUser,
+                    tradeId: offer.tradeId,
+                    offer: offer.offer,
+                    status: 'pending'
+                };
+                openAuthorizationModal(notification);
+                myOffers[offerIndex].status = 'Accepted';
+            } else if (action === 'reject') {
+                alert(`❌ Offer rejected from ${offer.fromUser}.`);
+                myOffers.splice(offerIndex, 1);
+            }
+            
+            renderMyOffers();
+        }
+
+        function renderNotifications(forceUpdate = false) {
+            const countElement = document.getElementById('notificationCount');
+            const badgeElement = document.getElementById('notificationBadge');
+            const content = document.getElementById('notificationContent');
+
+            const userNotifications = notifications.filter(n => n.owner === currentUser);
+
+            countElement.textContent = userNotifications.length;
+            badgeElement.style.display = userNotifications.length > 0 ? 'block' : 'none';
+            badgeElement.textContent = userNotifications.length > 9 ? '9+' : userNotifications.length;
+
+            if (userNotifications.length === 0) {
+                content.innerHTML = '<div style="text-align: center; padding: 15px; color: var(--text-muted);">No new notifications.</div>';
+                return;
+            }
+
+            if (!forceUpdate && content.children.length > 0 && content.children[0].className !== 'notification-item') {
+                return;
+            }
+
+            content.innerHTML = ''; 
+
+            userNotifications.forEach(notification => {
+                const trade = findTrade(notification.tradeId) || { title: "Unknown Item", tradeValue: "N/A" };
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'notification-item';
+                itemDiv.innerHTML = `
+                    <p style="margin: 0;"><strong>${notification.fromUser}</strong> sent a ${notification.status === 'bid' ? 'bid' : 'trade request'} for <strong>${trade.title}</strong>.</p>
+                    <p style="margin: 5px 0 0; font-style: italic; color: var(--text-muted);">Offer: ${notification.offer}</p>
+                    <div class="notification-actions">
+                        <button class="btn btn-success" onclick="handleNotificationAction(${notification.id}, 'accept');">Accept</button>
+                        <button class="btn btn-delete" onclick="handleNotificationAction(${notification.id}, 'reject');">Reject</button>
+                        <button class="btn btn-secondary" onclick="startMessage('${notification.fromUser}', 'Re: ${trade.title}', ${notification.id});">Reply</button>
+                    </div>
+                `;
+                content.appendChild(itemDiv);
+            });
+        }
+
+        function renderOffersDropdown() {
+            const container = document.getElementById('offersDropdownContent');
+            const offersForUser = myOffers.filter(o => o.owner === currentUser);
+            if (!offersForUser || offersForUser.length === 0) {
+                container.innerHTML = '<div style="text-align:center; color: var(--text-muted);">No offers.</div>';
+                return;
+            }
+            container.innerHTML = '';
+            offersForUser.slice(0, 8).forEach(offer => {
+                const el = document.createElement('div');
+                el.style.padding = '8px 0';
+                el.style.borderBottom = '1px solid var(--border-color)';
+                el.style.display = 'flex';
+                el.style.flexDirection = 'column';
+                el.style.gap = '6px';
+                el.innerHTML = `
+                    <div style="font-weight:700;color:var(--primary-color);">${offer.fromUser}</div>
+                    <div style="font-size:13px;color:var(--text-muted);">${offer.offer}</div>
+                    <div style="margin-top:6px;display:flex;gap:6px;">
+                        <button class="btn btn-success" onclick="handleOfferAction(${offer.id}, 'accept')">Accept</button>
+                        <button class="btn btn-delete" onclick="handleOfferAction(${offer.id}, 'reject')">Reject</button>
+                        <button class="btn btn-secondary" onclick="startMessage('${offer.fromUser}','Re: Offer for ${offer.tradeId}')">Reply</button>
+                    </div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function renderHistoryDropdown() {
+            const container = document.getElementById('historyDropdownContent');
+            const userHistory = tradeHistory.filter(h => h.seller === currentUser || h.buyer === currentUser);
+            if (!userHistory || userHistory.length === 0) {
+                container.innerHTML = '<div style="text-align:center; color: var(--text-muted);">No trade history.</div>';
+                return;
+            }
+            container.innerHTML = '';
+            userHistory.slice(0, 6).forEach(h => {
+                const el = document.createElement('div');
+                el.style.padding = '8px 0';
+                el.style.borderBottom = '1px solid var(--border-color)';
+                el.style.display = 'flex';
+                el.style.flexDirection = 'column';
+                el.style.gap = '6px';
+                el.innerHTML = `
+                    <div style="font-weight:700;color:var(--primary-color);">${h.title}</div>
+                    <div style="font-size:13px;color:var(--text-muted);">${h.date}</div>
+                `;
+                container.appendChild(el);
+            });
+        }
+
+        function handleNotificationAction(notificationId, action) {
+            const notificationIndex = notifications.findIndex(n => n.id === notificationId);
+            if (notificationIndex === -1) {
+                alert("Error: Notification not found.");
+                return;
+            }
+            const notification = notifications[notificationIndex];
+
+            if (action === 'accept') {
+                closeAllDropdowns();
+                alert(`You accepted the offer from ${notification.fromUser}!`);
+                openAuthorizationModal(notification);
+            } else if (action === 'reject') {
+                alert(`Trade Rejected: You declined the offer from ${notification.fromUser}.`);
+                notifications.splice(notificationIndex, 1);
+                renderNotifications(true);
+            }
+        }
+
+        function openAuthorizationModal(notification) {
+            const trade = findTrade(notification.tradeId);
+            closeAllDropdowns();
+            
+            let amount = "$0.00";
+            const offerMatch = notification.offer.match(/\$?(\d+(\.\d{1,2})?)/);
+            if (offerMatch) {
+                amount = `$${parseFloat(offerMatch[1]).toFixed(2)}`;
+            } else if (trade && trade.tradeValue) {
+                amount = trade.tradeValue;
+            } else {
+                amount = "$10.00"; 
+            }
+
+            document.getElementById('authItemTitle').textContent = trade ? trade.title : "Trade Item";
+            document.getElementById('authTransactionAmount').textContent = amount;
+            document.getElementById('authNotificationId').value = notification.id;
+
+            if (notifications.includes(notification)) {
+                pendingTradeNotification = null; 
+            }
+
+            openModal('authorizationModal');
+        }
+
+        function processPayment(event) {
+            event.preventDefault();
+            const notificationId = parseFloat(document.getElementById('authNotificationId').value);
+            const cvc = document.getElementById('cardCVC').value;
+
+            if (cvc !== '123') {
+                alert('❌ Payment Failed: Invalid CVC. Use 123 to authorize.');
+                return;
+            }
+
+            alert('✅ Payment Authorized!');
+            closeModal('authorizationModal');
+
+            let targetNotification = notifications.find(n => n.id === notificationId);
+
+            if (!targetNotification && pendingTradeNotification && pendingTradeNotification.id === notificationId) {
+                targetNotification = pendingTradeNotification; 
+                if (targetNotification.owner !== currentUser) {
+                    notifications.unshift(targetNotification); 
+                }
+                pendingTradeNotification = null; 
+            }
+
+            if (!targetNotification) {
+                alert("Error: Transaction data not found.");
+                return;
+            }
+
+            const trade = findTrade(targetNotification.tradeId);
+            if (trade) {
+                document.getElementById('verItemTitle').textContent = trade.title;
+                document.getElementById('finalVerifyButton').onclick = () => finalizeTrade(targetNotification.id);
+                openModal('verificationTradeModal');
+            } else {
+                alert("Error: Trade listing not found.");
+            }
+            
+            renderNotifications(true);
+        }
+
+        function finalizeTrade(notificationId) {
+            const notificationIndex = notifications.findIndex(n => n.id === notificationId);
+            if (notificationIndex === -1) {
+                alert("Error: Trade notification not found.");
+                closeModal('verificationTradeModal');
+                return;
+            }
+
+            const notification = notifications[notificationIndex];
+            const trade = findTrade(notification.tradeId);
+
+            if (!trade || trade.sold) {
+                alert("Error: Listing not found or already sold.");
+                notifications.splice(notificationIndex, 1);
+                renderNotifications(true);
+                closeModal('verificationTradeModal');
+                return;
+            }
+            
+            trade.sold = true;
+            
+            tradeHistory.unshift({
+                id: Date.now(),
+                title: trade.title,
+                seller: trade.owner,
+                buyer: notification.fromUser,
+                value: trade.tradeValue,
+                offer: notification.offer,
+                imageUrl: trade.uploadedImageUrl || `https://via.placeholder.com/100x100/00d9ff/ffffff?text=${trade.title.substring(0,3)}`,
+                date: new Date().toLocaleString()
+            });
+
+            saveTrades();
+            saveTradeHistory();
+
+            alert(`✅ SUCCESS: Trade Completed! "${trade.title}" has been transferred to ${notification.fromUser}.`);
+            notifications.splice(notificationIndex, 1);
+            pendingTradeNotification = null;
+            closeModal('verificationTradeModal');
+            
+            renderTrades();
+            renderTradeHistory();
+            renderNotifications(true);
+        }
+
+        function initializeBotOffers() {
+            const userTrades = trades.filter(t => t.owner === currentUser && !t.sold);
+            const tradesToTarget = userTrades.slice(0, 2); 
+
+            if (tradesToTarget.length > 0) {
+                tradesToTarget.forEach(targetTrade => {
+                    generateRandomBotOffer(targetTrade);
+                });
+            }
+        }
+
+        function generateRandomBotOffer(targetTrade) {
+            const botUser = botUsers[Math.floor(Math.random() * botUsers.length)];
+            const offerText = offers[Math.floor(Math.random() * offers.length)];
+            const newId = Date.now() + Math.random();
+
+            const newOffer = {
+                id: newId,
+                owner: currentUser,
+                fromUser: botUser,
+                tradeId: targetTrade.id,
+                offer: offerText,
+                status: 'Pending'
+            };
+
+            myOffers.unshift(newOffer);
+            renderMyOffers();
+        }
+
+        function startLiveBotLoop() {
+            setInterval(() => {
+                if (currentUser === "Guest" || !isVerified) return; 
+
+                const userActiveTrades = trades.filter(t => t.owner === currentUser && !t.sold);
+                
+                if (userActiveTrades.length > 0 && Math.random() > 0.7) {
+                    const targetTrade = userActiveTrades[Math.floor(Math.random() * userActiveTrades.length)];
+                    generateRandomBotOffer(targetTrade);
+                }
+            }, 15000); 
+        }
+
+        function generateBotResponse(messageBody, user, subject) {
+            const normalizedMessage = messageBody.toLowerCase();
+            const subjectMatch = subject.match(/Trade Offer for (.+)/i);
+            const item = subjectMatch ? subjectMatch[1] : 'your listed item';
+            
+            if (normalizedMessage.includes('hi') || normalizedMessage.includes('hello') || normalizedMessage.includes('hey')) {
+                const greetings = [
+                    `Hello! Thanks for reaching out about ${item}. How can I assist you?`,
+                    `Hi there! Interested in ${item}? Let's discuss!`,
+                    `Hey! Let's talk about the trade for ${item}.`,
+                ];
+                return greetings[Math.floor(Math.random() * greetings.length)];
+            }
+
+            if (normalizedMessage.includes('offer') || normalizedMessage.includes('value') || normalizedMessage.includes('price')) {
+                const offers = [
+                    `What's your best offer for ${item}?`,
+                    `I'm looking for a fair trade. What do you propose?`,
+                    `Please submit your official offer through the trade request system.`,
+                ];
+                return offers[Math.floor(Math.random() * offers.length)];
+            }
+            
+            const fallbacks = [
+                `Thanks for your message! Let's finalize this trade for ${item}.`,
+                `Noted! Submit your official offer on the listing page.`,
+                `Great! Looking forward to completing this trade.`,
+            ];
+            return fallbacks[Math.floor(Math.random() * fallbacks.length)];
+        }
+       
+        function openDmModal() {
+            closeAllDropdowns();
+            activeDmUser = activeDmUser || allUsers.filter(u => u !== currentUser)[0];
+            loadDmContactList();
+            openModal('dmModal');
+
+            const chatView = document.getElementById('dmChatViewPanel');
+            if (chatView && chatView.children.length < 1) {
+                startMessage(activeDmUser, "New Conversation");
+            }
+        }
+
+        function loadDmContactList() {
+            const contactListPanel = document.getElementById('dmContactListPanel');
+            contactListPanel.innerHTML = '<h4>Contacts</h4>';
+
+            const contacts = allUsers.filter(user => user !== currentUser);
+
+            contacts.forEach(user => {
+                const itemDiv = document.createElement('div');
+                itemDiv.className = `dm-contact-item ${activeDmUser === user ? 'active-chat' : ''}`;
+                itemDiv.textContent = user;
+                itemDiv.onclick = function() {
+                    activeDmUser = user;
+                    document.querySelectorAll('.dm-contact-item').forEach(el => el.classList.remove('active-chat'));
+                    itemDiv.classList.add('active-chat');
+                    startMessage(user, 'New Conversation');
+                };
+                contactListPanel.appendChild(itemDiv);
+            });
+        }
+
+        function startMessage(user, subject, notificationId = null) {
+            closeAllDropdowns();
+            activeDmUser = user;
+            loadDmContactList();
+            openModal('dmModal');
+
+            const dmChatViewPanel = document.getElementById('dmChatViewPanel');
+            dmChatViewPanel.innerHTML = `
+                <p style="font-weight: 600; border-bottom: 2px solid var(--primary-color); padding-bottom: 8px; color: var(--primary-color);">Chat with: ${user}</p>
+                <div id="chatHistory">
+                    <p style="color: var(--text-muted); text-align: center;">You are discussing: ${subject}</p>
+                </div>
+                <form id="dmForm">
+                    <div style="display: flex; gap: 8px;">
+                        <input type="text" id="dmInput" placeholder="Type your message..." style="flex: 1; padding: 10px; border: 1px solid var(--border-color); border-radius: 8px; background: var(--bg-dark); color: var(--text-light);" required>
+                        <button type="submit" class="btn btn-primary" style="padding: 10px 18px;">Send</button>
+                    </div>
+                    <input type="hidden" id="dmSubject" value="${subject}">
+                    <input type="hidden" id="dmTargetUser" value="${user}">
+                    <input type="hidden" id="dmNotificationId" value="${notificationId}">
+                </form>
+            `;
+            document.getElementById('dmForm').onsubmit = handleSendMessage;
+            document.getElementById('dmInput').focus();
+        }
+
+        function handleSendMessage(event) {
+            event.preventDefault();
+            const messageInput = document.getElementById('dmInput');
+            const messageBody = messageInput.value.trim();
+            const chatHistory = document.getElementById('chatHistory');
+            const user = document.getElementById('dmTargetUser').value;
+            const subject = document.getElementById('dmSubject').value;
+
+            if (!messageBody) return;
+
+            const messageDiv = document.createElement('div');
+            messageDiv.style.padding = '8px 12px';
+            messageDiv.style.borderRadius = '12px';
+            messageDiv.style.margin = '8px 0';
+            messageDiv.style.textAlign = 'right';
+            messageDiv.style.background = 'linear-gradient(135deg, var(--primary-color), var(--secondary-color))';
+            messageDiv.style.color = 'white';
+            messageDiv.style.maxWidth = '70%';
+            messageDiv.style.marginLeft = 'auto';
+            messageDiv.innerHTML = `<strong>You:</strong> ${messageBody}`;
+            chatHistory.appendChild(messageDiv);
+            chatHistory.scrollTop = chatHistory.scrollHeight;
+
+            messageInput.value = ''; 
+
+            if (botUsers.includes(user)) {
+                setTimeout(() => {
+                    const botResponse = generateBotResponse(messageBody, user, subject);
+                    
+                    const responseDiv = document.createElement('div');
+                    responseDiv.style.backgroundColor = 'var(--bg-card)';
+                    responseDiv.style.padding = '8px 12px';
+                    responseDiv.style.borderRadius = '12px';
+                    responseDiv.style.margin = '8px 0';
+                    responseDiv.style.textAlign = 'left';
+                    responseDiv.style.maxWidth = '70%';
+                    responseDiv.style.border = '1px solid var(--border-color)';
+                    responseDiv.innerHTML = `<strong style="color: var(--primary-color)">${user}:</strong> ${botResponse}`;
+                    chatHistory.appendChild(responseDiv);
+                    chatHistory.scrollTop = chatHistory.scrollHeight;
+                }, 1500); 
+            }
+        }
+
+        function handleCenterActionButton() {
+            if (currentUser === "Guest") {
+                alert("Please log in to add a trade listing.");
+                return;
+            }
+            if (!checkVerification("add a listing")) return;
+            openModal('addTradeModal');
+        }
+        
+        async function addNewTrade(event) {
+            event.preventDefault();
+            if (!checkVerification("add a listing")) return;
+
+            const title = document.getElementById('newTradeTitle').value;
+            const description = document.getElementById('newTradeDescription').value;
+            const tradeValue = document.getElementById('newTradeValue').value;
+            const minBidAmount = document.getElementById('newMinBidAmount').value;
+            const imageFile = document.getElementById('newTradeImage').files[0]; 
+            
+            if (!title || !description) {
+                alert('Please enter a title and description.');
+                return;
+            }
+
+            let imageUrl = '';
+            let imageKey = title.replace(/\s/g, '');
+
+            try {
+                imageUrl = await readFileAsDataURL(imageFile); 
+            } catch (e) {
+                console.error("Image upload failed:", e);
+            }
+            
+            if (!imageUrl) {
+                imageMap[imageKey] = title.replace(/\s/g, '+');
+            }
+
+            const newId = Date.now() + Math.random(); 
+            const newTrade = {
+                id: newId,
+                title,
+                description,
+                tradeValue,
+                minBidAmount,
+                image: imageKey, 
+                uploadedImageUrl: imageUrl, 
+                owner: currentUser,
+                sold: false
+            };
+            trades.unshift(newTrade);
+            saveTrades();
+
+            closeModal('addTradeModal');
+            document.getElementById('addTradeForm').reset();
+            renderTrades();
+            alert(`✅ New Trade Listing "${title}" added successfully!`);
+        }
+
+        function openTradeRequestModal(tradeId) {
+            if (!checkVerification("request a trade")) return;
+
+            const trade = findTrade(tradeId);
+            if (!trade || trade.sold) return;
+
+            if (currentUser === "Guest") {
+                alert("Please log in to submit a trade request.");
+                return;
+            }
+
+            document.getElementById('requestTradeId').value = tradeId;
+            document.getElementById('tradeRequestModalTitle').textContent = trade.minBidAmount ? 'Place Bid' : 'Trade Request';
+            document.getElementById('tradeRequestPreview').innerHTML = `You are requesting: <strong>${trade.title}</strong> (Owner: ${trade.owner}). Value: ${trade.tradeValue || 'N/A'}`;
+
+            const offerTextarea = document.getElementById('requestOffer');
+            if (trade.minBidAmount) {
+                offerTextarea.placeholder = `I bid ${trade.minBidAmount} or higher...`;
+            } else {
+                offerTextarea.placeholder = `I offer my Rare Skin Bundle for this...`;
+            }
+
+            openModal('tradeRequestModal');
+        }
+
+        function submitTradeRequest(event) {
+            event.preventDefault();
+            if (!checkVerification("submit a trade request")) return;
+
+            const tradeId = parseFloat(document.getElementById('requestTradeId').value);
+            const offer = document.getElementById('requestOffer').value;
+            const trade = findTrade(tradeId);
+
+            if (!trade || !offer) {
+                alert("Please enter a valid offer.");
+                return;
+            }
+
+            if (trade.owner === currentUser) {
+                alert("You cannot trade with yourself!");
+                return;
+            }
+
+            const newId = Date.now() + Math.random();
+            const newOffer = {
+                id: newId,
+                owner: trade.owner, 
+                fromUser: currentUser,
+                tradeId: trade.id,
+                offer: offer,
+                status: 'Pending'
+            };
+
+            myOffers.unshift(newOffer);
+            
+            alert(`✅ Trade request submitted! Awaiting response from ${trade.owner}.`);
+            
+            closeModal('tradeRequestModal');
+            document.getElementById('tradeRequestForm').reset();
+
+            pendingTradeNotification = newOffer;
+            openAuthorizationModal(newOffer);
+        }
+
+        function openManageTradeModal(tradeId) {
+            const trade = findTrade(tradeId);
+            if (!trade || trade.owner !== currentUser) return;
+
+            document.getElementById('manageTradeId').value = tradeId;
+            document.getElementById('manageTradeTitleDisplay').textContent = `Manage: ${trade.title}`;
+            document.getElementById('editTradeTitle').value = trade.title;
+            document.getElementById('editTradeDescription').value = trade.description;
+            document.getElementById('editTradeValue').value = trade.tradeValue;
+            document.getElementById('editMinBidAmount').value = trade.minBidAmount;
+
+            const markSoldBtn = document.getElementById('markSoldBtn');
+            markSoldBtn.textContent = trade.sold ? 'Mark as Active' : 'Mark as Sold';
+            markSoldBtn.onclick = () => toggleTradeSoldStatus(tradeId);
+
+            openModal('manageTradeModal');
+        }
+
+        function toggleTradeSoldStatus(tradeId) {
+            const trade = findTrade(tradeId);
+            if (!trade || trade.owner !== currentUser) return;
+
+            trade.sold = !trade.sold;
+            document.getElementById('markSoldBtn').textContent = trade.sold ? 'Mark as Active' : 'Mark as Sold';
+            alert(`Listing "${trade.title}" marked as ${trade.sold ? 'Sold' : 'Active'}.`);
+            saveTrades();
+            renderTrades();
+        }
+
+        function handleManageTradeFormSubmission(event) {
+            event.preventDefault();
+            const tradeId = parseFloat(document.getElementById('manageTradeId').value);
+            const trade = findTrade(tradeId);
+
+            if (!trade) {
+                alert("Error: Listing not found.");
+                return;
+            }
+
+            trade.title = document.getElementById('editTradeTitle').value;
+            trade.description = document.getElementById('editTradeDescription').value;
+            trade.tradeValue = document.getElementById('editTradeValue').value;
+            trade.minBidAmount = document.getElementById('editMinBidAmount').value;
+            saveTrades();
+            
+            closeModal('manageTradeModal');
+            renderTrades();
+            alert(`✅ Listing "${trade.title}" updated successfully!`);
+        }
+
+        function confirmDeleteTrade() {
+            const tradeId = parseFloat(document.getElementById('manageTradeId').value);
+            const tradeIndex = trades.findIndex(t => t.id === tradeId);
+            const trade = trades[tradeIndex];
+
+            if (confirm(`⚠ Are you sure you want to delete "${trade.title}"? This cannot be undone.`)) {
+                if (tradeIndex > -1) {
+                    trades.splice(tradeIndex, 1);
+                    saveTrades();
+                    closeModal('manageTradeModal');
+                    renderTrades();
+                    alert("✅ Listing deleted.");
+                }
+            }
+        }
+
+        function handleSettingsSubmission(event) {
+            event.preventDefault();
+            
+            const newEmail = document.getElementById('settingEmail').value;
+            const notificationsPref = document.getElementById('settingNotifications').value;
+
+            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+            if (storedUser) {
+                storedUser.email = newEmail;
+                storedUser.notifications = notificationsPref;
+                storedUser.photoUrl = defaultProfilePhotoUrl; 
+                localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+                loggedUserEmail = newEmail;
+                alert('✅ Settings saved successfully!');
+            } else {
+                alert('✅ Settings saved (simulated).');
+            }
+
+            closeModal('settingsModal');
+        }
+        
+        function changePassword() {
+            const currentPass = document.getElementById('settingCurrentPassword').value;
+            const newPass = document.getElementById('settingNewPassword').value;
+            const msg = document.getElementById('passwordChangeMsg');
+            msg.textContent = ''; 
+
+            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+
+            if (!storedUser || currentUser === "Guest") {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'You must be logged in to change password.';
+                return;
+            }
+            
+            if (newPass.length < 6) {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'New password must be at least 6 characters.';
+                return;
+            }
+
+            if (currentPass !== storedUser.password) {
+                msg.style.color = 'var(--danger-color)';
+                msg.textContent = 'Current password incorrect.';
+                return;
+            }
+
+            if (currentPass === newPass) {
+                msg.style.color = 'var(--warning-color)';
+                msg.textContent = 'New password cannot be the same.';
+                return;
+            }
+
+            storedUser.password = newPass;
+            localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+            
+            msg.style.color = 'var(--success-color)';
+            msg.textContent = '✅ Password changed! Logging out...';
+
+            document.getElementById('settingCurrentPassword').value = '';
+            document.getElementById('settingNewPassword').value = '';
+
+            setTimeout(() => {
+                closeModal('settingsModal');
+                handleLogout();
+            }, 1500);
+        }
+
+        function handlePhotoUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const imageUrl = e.target.result;
+                defaultProfilePhotoUrl = imageUrl;
+                updateProfilePhotoUI();
+                alert('✅ Profile photo updated! Save settings to confirm.');
+            }
+            reader.readAsDataURL(file);
+        }
+
+        function handleVerificationIdUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const preview = document.getElementById('verificationIdPreview');
+                if (preview) {
+                    preview.src = dataUrl;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function updateProfilePhotoUI() {
+            const headerPhoto = document.getElementById('headerProfilePhoto');
+            const dropdownPhoto = document.getElementById('dropdownProfilePhoto');
+            const settingsPhoto = document.getElementById('settingsProfilePhoto');
+
+            const headerGlyph = document.getElementById('headerProfileIcon');
+            const dropdownGlyph = document.getElementById('dropdownProfileIcon');
+            const settingsGlyph = document.getElementById('settingsProfileIcon');
+
+            headerPhoto.src = defaultProfilePhotoUrl;
+            dropdownPhoto.src = defaultProfilePhotoUrl;
+            settingsPhoto.src = defaultProfilePhotoUrl;
+
+            if (defaultProfilePhotoUrl && defaultProfilePhotoUrl.includes('placeholder')) {
+                const initials = currentUser.substring(0, 1).toUpperCase();
+
+                if (headerGlyph) { headerGlyph.textContent = initials; headerGlyph.style.display = 'flex'; }
+                if (dropdownGlyph) { dropdownGlyph.textContent = initials; dropdownGlyph.style.display = 'flex'; }
+                if (settingsGlyph) { settingsGlyph.textContent = initials; settingsGlyph.style.display = 'flex'; }
+
+                headerPhoto.style.display = 'none';
+                dropdownPhoto.style.display = 'none';
+                settingsPhoto.style.display = 'none';
+            } else {
+                if (headerGlyph) headerGlyph.style.display = 'none';
+                if (dropdownGlyph) dropdownGlyph.style.display = 'none';
+                if (settingsGlyph) settingsGlyph.style.display = 'none';
+
+                headerPhoto.style.display = 'block';
+                dropdownPhoto.style.display = 'block';
+                settingsPhoto.style.display = 'block';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const loginContainer = document.getElementById('loginContainer');
+            const appContainer = document.getElementById('appContainer');
+
+            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
+            if (storedUser) {
+                currentUser = storedUser.username || storedUser.name;
+                loggedUserEmail = storedUser.email;
+                isVerified = storedUser.verified || false;
+                defaultProfilePhotoUrl = storedUser.photoUrl || defaultProfilePhotoUrl;
+                loginContainer.style.display = 'none';
+                appContainer.classList.remove('hidden');
+            } else {
+                loginContainer.style.display = 'flex';
+                appContainer.classList.add('hidden');
+                currentUser = "Guest";
+                loggedUserEmail = "";
+            }
+
+            updateUI();
+            initializeBotOffers();
+            startLiveBotLoop(); 
+
+            document.getElementById('actionBtn').onclick = handleCenterActionButton;
+            document.getElementById('addTradeForm').onsubmit = addNewTrade;
+            document.getElementById('userSettingsForm').onsubmit = handleSettingsSubmission;
+            document.getElementById('searchBar').addEventListener('input', handleSearchInput);
+            document.getElementById('editTradeForm').onsubmit = handleManageTradeFormSubmission;
+            document.getElementById('tradeRequestForm').onsubmit = submitTradeRequest;
+            document.getElementById('paymentForm').onsubmit = processPayment;
+
+            window.onclick = function(event) {
+                if (!event.target.closest('.dropdown-container')) {
+                    closeAllDropdowns();
+                }
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = "none";
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
