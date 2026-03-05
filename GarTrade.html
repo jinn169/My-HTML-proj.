@@ -34,7 +34,7 @@
             padding: 0;
             min-height: 100vh; 
             background-color: #121212; 
-            background-image: url('C:/Users/Mary Jane/Downloads/966690f4-9a35-42ed-9544-de476ea98c84.jfif');
+            background-image: url('https://i.redd.it/vm8ev8sa90fg1.jpeg');
             background-position: center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -1045,6 +1045,28 @@
             50% { opacity: 0.5; }
         }
 
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes slideOut {
+            from {
+                transform: translateX(0);
+                opacity: 1;
+            }
+            to {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+        }
+
         .loading {
             animation: pulse 1.5s ease-in-out infinite;
         }
@@ -1076,7 +1098,10 @@
                 <div id="loginBox">
                     <h2>Login</h2>
                     <input type="text" id="loginIdentifier" placeholder="Enter your username or email" />
-                    <input type="password" id="loginPassword" placeholder="Password" />
+                    <div style="position: relative; margin-bottom: 15px;">
+                        <input type="password" id="loginPassword" placeholder="Password" style="width: 100%; padding: 12px 40px 12px 16px; border-radius: 8px; border: 1px solid var(--border-color); font-size: 15px; background: var(--bg-dark); color: var(--text-light); transition: all 0.3s ease;" />
+                        <span id="togglePasswordIcon" style="position: absolute; right: 12px; top: 50%; transform: translateY(-50%); cursor: pointer; font-size: 18px; user-select: none;" onclick="toggleLoginPassword()">◉</span>
+                    </div>
 
                     <div class="link-forgot"><a onclick="forgotPassword()">Forgot Password?</a></div>
 
@@ -1088,7 +1113,7 @@
                 <div id="signupBox" class="hidden">
                     <h2>Sign Up</h2>
                     <input type="text" id="signupName" placeholder="Full Name" />
-                    <input type="text" id="signupUsername" placeholder="Username (optional)" />
+                    <input type="text" id="signupUsername" placeholder="Username" />
                     <input type="email" id="signupEmail" placeholder="Email" />
                     <input type="password" id="signupPassword" placeholder="Password" />
                     <button onclick="signup()">Create Account</button>
@@ -1115,8 +1140,6 @@
             <div class="logo">GARTRADE</div>
             <nav>
                 <a href="#" onclick="scrollToSection('tradeListingsSection'); return false;">Home</a>
-                
-                <!-- Only Home and About kept per user request -->
                 <a href="#" onclick="openModal('aboutModal'); return false;">About</a>
                 <a href="#" onclick="openModal('privacyModal'); return false;">Privacy</a>
                 
@@ -1124,11 +1147,11 @@
             <div class="user-actions">
                 <input type="text" id="searchBar" placeholder="Search trades...">
                 
-                <span class="icon" onclick="openDmModal()" title="Direct Messages">💬</span>
+                <span class="icon" onclick="openDmModal()" title="Direct Messages">✉</span>
 
                 <div class="dropdown-container">
                     <span id="notificationBadge" class="notification-badge" style="display: none;"></span>
-                    <span id="notificationIcon" class="icon" onclick="toggleDropdown('notificationsDropdown')" title="Notifications">🔔</span> 
+                    <span id="notificationIcon" class="icon" onclick="toggleDropdown('notificationsDropdown')" title="Notifications">⊙</span> 
                     <div id="notificationsDropdown" class="dropdown-menu notification-panel">
                         <h4>Notifications (<span id="notificationCount">0</span>)</h4>
                         <div id="notificationContent">
@@ -1138,7 +1161,7 @@
                 </div>
 
                 <div class="dropdown-container">
-                    <span id="offersIcon" class="icon" onclick="toggleDropdown('offersDropdown')" title="Trade Offers">📥</span>
+                    <span id="offersIcon" class="icon" onclick="toggleDropdown('offersDropdown')" title="Trade Offers">▼</span>
                     <div id="offersDropdown" class="dropdown-menu">
                         <h4>Trade Offers</h4>
                         <div id="offersDropdownContent" style="padding: 12px 16px; color: var(--text-muted); display:flex; flex-direction:column; gap:10px;">No offers.</div>
@@ -1146,7 +1169,7 @@
                 </div>
 
                 <div class="dropdown-container">
-                    <span id="historyIcon" class="icon" onclick="toggleDropdown('historyDropdown')" title="Recent Trade History">📜</span>
+                    <span id="historyIcon" class="icon" onclick="toggleDropdown('historyDropdown')" title="Recent Trade History">⌘</span>
                     <div id="historyDropdown" class="dropdown-menu">
                         <h4>My History</h4>
                         <div id="historyDropdownContent" style="padding: 12px 16px; color: var(--text-muted); display:flex; flex-direction:column; gap:10px;">No history.</div>
@@ -1170,7 +1193,7 @@
                         </div>
                         <a href="#" onclick="openModal('verificationModal'); toggleDropdown('profileDropdown'); return false;">✓ Verify Account</a>
                         <a href="#" onclick="openModal('settingsModal'); toggleDropdown('profileDropdown'); return false;">⚙ Settings</a>
-                        <a href="#" onclick="handleLogout(); toggleDropdown('profileDropdown'); return false;">🚪 Logout</a>
+                        <a href="#" onclick="handleLogout(); toggleDropdown('profileDropdown'); return false;">◄ Logout</a>
                     </div>
                 </div>
             </div>
@@ -1178,12 +1201,12 @@
 
         <div class="app-content-container">
             <div class="security-banner">
-                🛡 Notice: This platform is currently simulated to test its effectiveness through simulated trades.
+                ◊ Notice: This platform is currently simulated to test its effectiveness through simulated trades.
             </div>
             
             <div id="tradeListingsSection">
                 <div class="section-header">
-                    <h2>🎮 Active Trade Listings</h2>
+                    <h2>▲ Active Trade Listings</h2>
                 </div>
                 <div class="trade-grid" id="tradeList"></div>
             </div>
@@ -1195,7 +1218,7 @@
         <div id="verificationModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('verificationModal')">&times;</span>
-                <h3>📇 Identity Verification</h3>
+                <h3>▣ Identity Verification</h3>
                 <p>To ensure platform security and enable trading, please upload a government-issued ID. Email verification alone is not sufficient.</p>
 
                 <div class="form-group">
@@ -1204,17 +1227,26 @@
                 </div>
 
                 <div class="form-group">
-                    <label for="verificationIdUpload">Upload Valid ID (JPG, PNG, PDF)</label>
+                    <label for="verificationIdUpload">Upload Primary Valid ID (JPG, PNG, PDF)</label>
                     <input type="file" id="verificationIdUpload" accept="image/*,application/pdf" onchange="handleVerificationIdUpload(event)">
                     <div style="margin-top:8px; text-align:center;">
                         <img id="verificationIdPreview" src="" alt="ID Preview" style="max-width:160px; max-height:120px; display:none; border:1px solid var(--border-color); border-radius:8px;" />
                     </div>
-                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">We will store the uploaded ID securely in your browser's localStorage for verification purposes only (simulated).</p>
+                    <p style="font-size:12px; color:var(--text-muted); margin-top:6px;">Accepted types: Passport, Driver's License, National ID Card, Government ID, Birth Certificate, or other official government-issued identification. We will store the uploaded ID securely in your browser's localStorage for verification purposes only (simulated).</p>
                 </div>
 
                 <div class="form-group">
-                    <label for="verificationCode">(Optional) Enter Verification Code</label>
-                    <input type="text" id="verificationCode" placeholder="Enter 6-digit code sent to your email (optional)">
+                    <label for="secondaryIdUpload">Upload Secondary ID Picture (JPG, PNG, PDF)</label>
+                    <input type="file" id="secondaryIdUpload" accept="image/*,application/pdf" onchange="handleSecondaryIdUpload(event)">
+                    <div style="margin-top:8px; text-align:center;">
+                        <img id="secondaryIdPreview" src="" alt="Secondary ID Preview" style="max-width:160px; max-height:120px; display:none; border:1px solid var(--border-color); border-radius:8px;" />
+                    </div>
+                    <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Accepted types: Social Security Card, Passport, Tax ID, Student ID, Employee ID, Library Card, Bank Statement, or other official secondary identification. Upload a clear photo of your secondary ID.</p>
+                </div>
+
+                <div class="form-group">
+                    <label for="verificationCode">Enter Verification Code</label>
+                    <input type="text" id="verificationCode" placeholder="Enter 6-digit code sent to your email">
                     <p style="font-size: 12px; color: var(--text-muted); margin-top: 5px;">Simulated code: <strong style="color: var(--primary-color);">123456</strong></p>
                 </div>
 
@@ -1228,7 +1260,7 @@
         <div id="passwordResetModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('passwordResetModal')">&times;</span>
-                <h3>🔁 Password Reset</h3>
+                <h3>⟲ Password Reset</h3>
                 <p>Enter your username or email to receive a password reset link.</p>
 
                 <div class="form-group">
@@ -1246,7 +1278,7 @@
         <div id="dmModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('dmModal')">&times;</span>
-                <h3 style="border-bottom: 2px solid var(--primary-color); padding-bottom: 8px;">💬 Direct Messages</h3>
+                <h3 style="border-bottom: 2px solid var(--primary-color); padding-bottom: 8px;">✉ Direct Messages</h3>
                 
                 <div id="dmLayout">
                     <div id="dmContactListPanel">
@@ -1281,12 +1313,12 @@
 
                     <div class="form-group">
                         <label for="editTradeValue">Trade Value</label>
-                        <input type="text" id="editTradeValue" placeholder="$50">
+                        <input type="text" id="editTradeValue" placeholder="₱50" oninput="formatPHPCurrency(this)">
                     </div>
 
                     <div class="form-group">
                         <label for="editMinBidAmount">Min Bid Amount (for Auction)</label>
-                        <input type="text" id="editMinBidAmount" placeholder="$5 (leave blank if not auction)">
+                        <input type="text" id="editMinBidAmount" placeholder="₱5 (leave blank if not auction)" oninput="formatPHPCurrency(this)">
                     </div>
 
                     <div class="modal-buttons">
@@ -1340,13 +1372,13 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="newTradeValue">Approximate Trade Value (e.g., $25)</label>
-                        <input type="text" id="newTradeValue" placeholder="$">
+                        <label for="newTradeValue">Approximate Trade Value (e.g., ₱25)</label>
+                        <input type="text" id="newTradeValue" placeholder="₱" oninput="formatPHPCurrency(this)">
                     </div>
 
                     <div class="form-group">
                         <label for="newMinBidAmount">Minimum Bid Amount (Optional - for Auction)</label>
-                        <input type="text" id="newMinBidAmount" placeholder="$5 (Leave blank for simple trade)">
+                        <input type="text" id="newMinBidAmount" placeholder="₱5 (Leave blank for simple trade)" oninput="formatPHPCurrency(this)">
                     </div>
 
                     <div class="modal-buttons" style="justify-content: flex-end;">
@@ -1360,7 +1392,7 @@
         <div id="settingsModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('settingsModal')">&times;</span>
-                <h3 id="settingsModalTitle">⚙ User Settings</h3>
+                <h3 id="settingsModalTitle">⚒ User Settings</h3>
                 <form id="userSettingsForm">
                     
                     <h4>Profile Photo</h4>
@@ -1419,13 +1451,13 @@
         <div id="aboutModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('aboutModal')">&times;</span>
-                <h3>✨ About GARTRADE: Secured Game Trading</h3>
+                <h3>◆ About GARTRADE: Secured Game Trading</h3>
                 
                 <p style="font-size: 16px; line-height: 1.6;">
                     GARTRADE is the premier dedicated platform for seamless game asset trading. We allow users to securely trade in-game items, accounts, and services with other players globally.
                 </p>
 
-                <h4>🤝 Our Promise: Secured and Balanced Treatment</h4>
+                <h4>◈ Our Promise: Secured and Balanced Treatment</h4>
                 <p>
                     We prioritize trust and fairness. Every trade offer initiated through our system is transparent, giving both the item owner and the requester full control via the notification panel.
                 </p>
@@ -1443,14 +1475,14 @@
         <div id="privacyModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('privacyModal')">&times;</span>
-                <h3>🔒 GARTRADE Privacy Policy</h3>
+                <h3>◉ GARTRADE Privacy Policy</h3>
                 
                 <p style="font-size: 16px; line-height: 1.6;">
                     GARTRADE is committed to protecting your privacy and securing your personal information. We do not share any user trade history or financial authorization data with third parties. All data related to bids, offers, and payment authorization is encrypted and used solely for facilitating secured transactions.
                 </p>
 
                 <p style="text-align: center; margin-top: 20px;">
-                    <a href="#" onclick="alert('See our full Terms of Service')" style="color: var(--primary-color);">Review our full TOS</a>
+                    <a href="#" onclick="showCustomPrompt('See our full Terms of Service')" style="color: var(--primary-color);">Review our full TOS</a>
                 </p>
             </div>
         </div>
@@ -1458,12 +1490,12 @@
         <div id="authorizationModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('authorizationModal')">&times;</span>
-                <h3>💳 Secure Payment Authorization</h3>
+                <h3>◉ Secure Payment Authorization</h3>
                 
                 <p>To finalize the secured trade for <strong><span id="authItemTitle"></span></strong>, you must authorize the transaction amount with our payment gateway.</p>
                 <div class="paymaya-box">
                     <h5>Simulated Payment Gateway</h5>
-                    <p>Transaction Amount: <strong id="authTransactionAmount">$0.00</strong></p>
+                    <p>Transaction Amount: <strong id="authTransactionAmount">₱0.00</strong></p>
                 </div>
                 <form id="paymentForm">
                     <input type="hidden" id="authNotificationId">
@@ -1486,7 +1518,7 @@
         <div id="verificationTradeModal" class="modal">
             <div class="modal-content">
                 <span class="close" onclick="closeModal('verificationTradeModal')">&times;</span>
-                <h3>✅ Trade Verification</h3>
+                <h3>✓ Trade Verification</h3>
                 
                 <p>Payment for <strong><span id="verItemTitle"></span></strong> has been successfully processed.</p>
                 <p>To complete the secured trade, please click "Finalize Trade" below.</p>
@@ -1494,6 +1526,16 @@
                 <div class="modal-buttons" style="justify-content: flex-end;">
                     <button type="button" class="btn btn-secondary" onclick="closeModal('verificationTradeModal')">Cancel</button>
                     <button type="button" id="finalVerifyButton" class="btn btn-success">Finalize Trade</button>
+                </div>
+            </div>
+        </div>
+
+        <div id="customPromptModal" class="modal">
+            <div class="modal-content" style="max-width: 500px;">
+                <span class="close" onclick="closeCustomPrompt()">&times;</span>
+                <p id="customPromptMessage" style="margin: 20px 0; font-size: 16px; line-height: 1.6;"></p>
+                <div class="modal-buttons" style="justify-content: center; gap: 10px;">
+                    <button type="button" class="btn btn-primary" onclick="closeCustomPrompt()" id="customPromptOkBtn">OK</button>
                 </div>
             </div>
         </div>
@@ -1512,19 +1554,27 @@
         let searchFilter = "";
         let pendingTradeNotification = null;
         let tradeHistory = [];
+
+        function showCustomPrompt(message) {
+            document.getElementById('customPromptMessage').textContent = message;
+            document.getElementById('customPromptModal').style.display = 'block';
+        }
+
+        function closeCustomPrompt() {
+            document.getElementById('customPromptModal').style.display = 'none';
+        }
         
         let trades = [
-            { id: 1, title: "Mobile Legends Account", description: "High Level, 100+ heroes, 3 Mythic skins.", tradeValue: "$100", minBidAmount: "", image: "MLAccount", uploadedImageUrl: "https://paas-file-pro.igv.com/shop/66bfa9e6990024711700e576_702x302.jpg", owner: "User1", sold: false },
-            { id: 2, title: "Diamonds Pack", description: "1000 ML Diamonds ready for transfer.", tradeValue: "$10", minBidAmount: "", image: "MLDiamonds", uploadedImageUrl: "https://pic.bittopup.com/apiUpload/2ac7e02576fb500bb93c6d754f82ff9f.jpg", owner: "BotA", sold: false },
-            { id: 3, title: "Rare Skin Bundle", description: "Exclusive ML skins: KOF set, Legends, Collector.", tradeValue: "$250", minBidAmount: "", image: "MLSkinBundle", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1EMpRnjsgst4UEbWp-QLYzLFCbXkhaRL_PA&s", owner: "BotB", sold: false },
-            { id: 4, title: "PUBG UC Pack", description: "5000 Unknown Cash (UC) available.", tradeValue: "$50", minBidAmount: "$15", image: "PUBGUC", uploadedImageUrl: "https://i.redd.it/h6qanu70gha61.jpg", owner: "BotC", sold: false },
-            { id: 6, title: "Valorant Radiant Account", description: "Account with full access and max ranked.", tradeValue: "$500", minBidAmount: "$100", image: "ValAccount", uploadedImageUrl: "https://cdn-offer-photos.zeusx.com/ceaf35d9-9943-428f-a66b-71e4fabbbf51.png", owner: "BotA", sold: false },
-            { id: 7, title: "Apex Legends Heirloom", description: "Wraith's Kunai Heirloom available for trade.", tradeValue: "$150", minBidAmount: "", image: "ApexHeirloom", uploadedImageUrl: "https://fbi.cults3d.com/uploaders/16979428/illustration-file/f62d6e6d-4a95-41da-a4cc-066ceeb4b7a1/xoxo.png", owner: "BotD", sold: false },
-            { id: 8, title: "Free Fire Diamonds Pack", description: "2000 FF Diamonds ready for transfer.", tradeValue: "$20", minBidAmount: "", image: "FFDiamonds", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt9zNUSQhlyJ346uaglyEC182hvD1O9P8v5g&s", owner: "User1", sold: false },
-            { id: 10, title: "Legendary Loot Box Open", description: "I will open a fresh loot box on stream and transfer contents.", tradeValue: "$5", minBidAmount: "", image: "LegendaryLoot", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6mkAKhZqCH1-wwFsfJ5P27ekazcIE0vQJ7g&s", owner: "BotA", sold: false } 
+            { id: 1, title: "Mobile Legends Account", description: "High Level, 100+ heroes, 3 Mythic skins.", tradeValue: "₱100", minBidAmount: "", image: "MLAccount", uploadedImageUrl: "https://paas-file-pro.igv.com/shop/66bfa9e6990024711700e576_702x302.jpg", owner: "User1", sold: false },
+            { id: 2, title: "Diamonds Pack", description: "1000 ML Diamonds ready for transfer.", tradeValue: "₱10", minBidAmount: "", image: "MLDiamonds", uploadedImageUrl: "https://pic.bittopup.com/apiUpload/2ac7e02576fb500bb93c6d754f82ff9f.jpg", owner: "BotA", sold: false },
+            { id: 3, title: "Rare Skin Bundle", description: "Exclusive ML skins: KOF set, Legends, Collector.", tradeValue: "₱250", minBidAmount: "", image: "MLSkinBundle", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR1EMpRnjsgst4UEbWp-QLYzLFCbXkhaRL_PA&s", owner: "BotB", sold: false },
+            { id: 4, title: "PUBG UC Pack", description: "5000 Unknown Cash (UC) available.", tradeValue: "₱50", minBidAmount: "₱15", image: "PUBGUC", uploadedImageUrl: "https://i.redd.it/h6qanu70gha61.jpg", owner: "BotC", sold: false },
+            { id: 6, title: "Valorant Radiant Account", description: "Account with full access and max ranked.", tradeValue: "₱500", minBidAmount: "₱100", image: "ValAccount", uploadedImageUrl: "https://cdn-offer-photos.zeusx.com/ceaf35d9-9943-428f-a66b-71e4fabbbf51.png", owner: "BotA", sold: false },
+            { id: 7, title: "Apex Legends Heirloom", description: "Wraith's Kunai Heirloom available for trade.", tradeValue: "₱150", minBidAmount: "", image: "ApexHeirloom", uploadedImageUrl: "https://fbi.cults3d.com/uploaders/16979428/illustration-file/f62d6e6d-4a95-41da-a4cc-066ceeb4b7a1/xoxo.png", owner: "BotD", sold: false },
+            { id: 8, title: "Free Fire Diamonds Pack", description: "2000 FF Diamonds ready for transfer.", tradeValue: "₱20", minBidAmount: "", image: "FFDiamonds", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTt9zNUSQhlyJ346uaglyEC182hvD1O9P8v5g&s", owner: "User1", sold: false },
+            { id: 10, title: "Legendary Loot Box Open", description: "I will open a fresh loot box on stream and transfer contents.", tradeValue: "₱5", minBidAmount: "", image: "LegendaryLoot", uploadedImageUrl: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6mkAKhZqCH1-wwFsfJ5P27ekazcIE0vQJ7g&s", owner: "BotA", sold: false } 
         ];
 
-        // Persisted trades + history handling
         function saveTrades() {
             try { localStorage.setItem('gartradeTrades', JSON.stringify(trades)); } catch (e) { console.error('Save trades failed', e); }
         }
@@ -1533,10 +1583,18 @@
             try { localStorage.setItem('gartradeHistory', JSON.stringify(tradeHistory)); } catch (e) { console.error('Save trade history failed', e); }
         }
 
-        // Load persisted trades/history (if any)
         try {
             const _savedTrades = JSON.parse(localStorage.getItem('gartradeTrades'));
             if (Array.isArray(_savedTrades) && _savedTrades.length) {
+
+                _savedTrades.forEach(trade => {
+                    if (trade.tradeValue && trade.tradeValue.includes('$')) {
+                        trade.tradeValue = trade.tradeValue.replace(/\$/g, '₱');
+                    }
+                    if (trade.minBidAmount && trade.minBidAmount.includes('$')) {
+                        trade.minBidAmount = trade.minBidAmount.replace(/\$/g, '₱');
+                    }
+                });
                 trades = _savedTrades;
             } else {
                 localStorage.setItem('gartradeTrades', JSON.stringify(trades));
@@ -1563,8 +1621,77 @@
 
         let notifications = [];
         let myOffers = []; 
+        let allUsersData = []; 
         const botUsers = ["BotA", "BotB", "BotC", "BotD"];
-        const offers = ["$50 cash offer", "My PUBG account for this", "I'll trade 10,000 in-game gold", "Trade plus $5", "My CS:GO knife skin"];
+        const offers = ["₱50 cash offer", "My PUBG account for this", "I'll trade 10,000 in-game gold", "Trade plus ₱5", "My CS:GO knife skin"];
+
+        function loadAllUsers() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('gartradeAllUsers'));
+                if (Array.isArray(saved) && saved.length > 0) {
+                    allUsersData = saved;
+                } else {
+                    allUsersData = [];
+                }
+            } catch (e) {
+                console.error('Error loading users', e);
+                allUsersData = [];
+            }
+        }
+
+        function saveAllUsers() {
+            try {
+                localStorage.setItem('gartradeAllUsers', JSON.stringify(allUsersData));
+            } catch (e) {
+                console.error('Save all users failed', e);
+            }
+        }
+
+        function saveNotifications() {
+            try {
+                localStorage.setItem('gartradeNotifications', JSON.stringify(notifications));
+            } catch (e) {
+                console.error('Save notifications failed', e);
+            }
+        }
+
+        function loadNotifications() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('gartradeNotifications'));
+                if (Array.isArray(saved) && saved.length > 0) {
+                    notifications = saved;
+                } else {
+                    notifications = [];
+                }
+            } catch (e) {
+                console.error('Error loading notifications', e);
+                notifications = [];
+            }
+        }
+
+        function saveMyOffers() {
+            try {
+                localStorage.setItem('gartradeMyOffers', JSON.stringify(myOffers));
+            } catch (e) {
+                console.error('Save offers failed', e);
+            }
+        }
+
+        function loadMyOffers() {
+            try {
+                const saved = JSON.parse(localStorage.getItem('gartradeMyOffers'));
+                if (Array.isArray(saved) && saved.length > 0) {
+                    myOffers = saved;
+                } else {
+                    myOffers = [];
+                }
+            } catch (e) {
+                console.error('Error loading offers', e);
+                myOffers = [];
+            }
+        }
+
+
 
 
         function findTrade(id) {
@@ -1673,26 +1800,45 @@
             const password = document.getElementById('signupPassword').value;
             const msg = document.getElementById('signupMsg');
 
-            if (!name || !email || !password) {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'Please fill in all fields.';
+            if (!name || !username || !email || !password) {
+                showCustomPrompt('✕ Please fill in all fields.');
+                return;
+            }
+            
+            if (password.length < 8) {
+                showCustomPrompt('✕ Password must be at least 8 characters long.');
+                return;
+            }
+
+            loadAllUsers();
+            if (allUsersData.some(u => u.email === email)) {
+                showCustomPrompt('✕ Email already registered.');
+                return;
+            }
+
+            if (allUsersData.some(u => u.username === username)) {
+                showCustomPrompt('✕ Username already taken. Please choose a different username.');
                 return;
             }
 
             const user = { 
+                id: Date.now(),
                 name,
-                username: username || name,
+                username: username,
                 email, 
                 password, 
                 photoUrl: defaultProfilePhotoUrl, 
                 notifications: 'enabled',
-                verified: false
+                verified: false,
+                secondaryId: ''
             };
 
+            allUsersData.push(user);
+            saveAllUsers();
             localStorage.setItem('gartradeUser', JSON.stringify(user));
 
             msg.style.color = 'var(--success-color)';
-            msg.textContent = 'Account created! Please log in.';
+            msg.textContent = '✓ Account created! Please log in.';
             setTimeout(showLogin, 1500);
         }
 
@@ -1701,60 +1847,127 @@
             const password = document.getElementById('loginPassword').value;
             const msg = document.getElementById('loginMsg');
             msg.textContent = ''; 
-
-            const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
-
-            if (!storedUser) {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'No account found. Please sign up first.';
-                loginAttempts++;
-                checkLoginAttempts(msg);
-                return;
-            }
-
-            const matchesIdentifier = identifier === storedUser.email || identifier === storedUser.name || (storedUser.username && identifier === storedUser.username);
-
-            if (matchesIdentifier && password === storedUser.password) {
+            
+            // Check for admin credentials
+            const adminUsername = 'admin';
+            const adminPassword = 'gartrade123';
+            
+            if ((identifier === adminUsername || identifier === 'admin@gartrade.com') && password === adminPassword) {
                 msg.style.color = 'var(--success-color)';
-                msg.textContent = 'Login successful! Welcome to GarTrade.';
-                loginAttempts = 0; 
-
-                const oldUser = currentUser; 
-                currentUser = storedUser.username || storedUser.name;
-                loggedUserEmail = storedUser.email;
-                isVerified = storedUser.verified || false;
-                defaultProfilePhotoUrl = storedUser.photoUrl || defaultProfilePhotoUrl; 
-
-                if (oldUser === "User1" && currentUser !== "User1") {
-                    trades.forEach(trade => {
-                        if (trade.owner === "User1") {
-                            trade.owner = currentUser;
-                        }
-                    });
-                    saveTrades();
-                }
+                msg.textContent = '✓ Admin login successful! Welcome to GarTrade Admin Panel.';
+                loginAttempts = 0;
+                
+                currentUser = 'ADMIN';
+                loggedUserEmail = 'admin@gartrade.com';
+                isVerified = true;
+                
+                const adminUser = {
+                    id: 'admin_id_001',
+                    username: 'admin',
+                    name: 'Administrator',
+                    email: 'admin@gartrade.com',
+                    password: adminPassword,
+                    verified: true,
+                    photoUrl: defaultProfilePhotoUrl,
+                    isAdmin: true
+                };
+                
+                localStorage.setItem('gartradeUser', JSON.stringify(adminUser));
+                localStorage.setItem('gartradeCurrentUserId', 'admin_id_001');
+                localStorage.setItem('isAdminLoggedIn', 'true');
+                
+                loadMyOffers();
+                loadNotifications();
                 updateUI();
             
-                notifications = [];
                 initializeBotOffers();
                 
                 document.getElementById('loginContainer').style.display = 'none';
                 document.getElementById('appContainer').classList.remove('hidden');
                 
                 renderNotifications(true);
+                showCustomPrompt('\u2705 Welcome Admin! You are logged in as an administrator.');
+                return;
+            }
+            
+            loadAllUsers();
 
-            } else {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'Invalid email or password.';
+            if (!allUsersData || allUsersData.length === 0) {
                 loginAttempts++;
-                checkLoginAttempts(msg);
+                console.log('No registered accounts. Attempts:', loginAttempts);
+                
+                if (loginAttempts >= 3) {
+                    showCustomPrompt(' No registered accounts. Redirecting to Sign Up...');
+                    setTimeout(() => {
+                        showSignup();
+                        loginAttempts = 0;
+                    }, 1500);
+                } else {
+                    showCustomPrompt(' ERROR: No registered accounts found. Please create an account first.\n\nAttempts: ' + loginAttempts + ' / 3');
+                }
+                return;
+            }
+
+            const storedUser = allUsersData.find(u => 
+                (identifier === u.email || identifier === u.name || identifier === u.username) && 
+                password === u.password
+            );
+
+            if (!storedUser) {
+                showCustomPrompt('✕ Invalid email or password.');
+                loginAttempts++;
+                checkLoginAttempts();
+                return;
+            }
+            
+            msg.style.color = 'var(--success-color)';
+            msg.textContent = 'Login successful! Welcome to GarTrade.';
+            loginAttempts = 0; 
+
+            const oldUser = currentUser; 
+            currentUser = storedUser.username || storedUser.name;
+            loggedUserEmail = storedUser.email;
+            isVerified = storedUser.verified || false;
+            defaultProfilePhotoUrl = storedUser.photoUrl || defaultProfilePhotoUrl; 
+
+            localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+            localStorage.setItem('gartradeCurrentUserId', storedUser.id);
+            localStorage.setItem('isAdminLoggedIn', 'false');
+            
+            loadMyOffers();
+            loadNotifications();
+            updateUI();
+        
+            initializeBotOffers();
+            
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('appContainer').classList.remove('hidden');
+            
+            renderNotifications(true);
+        }
+
+        function formatPHPCurrency(input) {
+            let value = input.value.replace(/[^0-9.]/g, '');
+            
+            const parts = value.split('.');
+            if (parts.length > 2) {
+                value = parts[0] + '.' + parts[1];
+            }
+            
+            if (parts[1] && parts[1].length > 2) {
+                value = parts[0] + '.' + parts[1].substring(0, 2);
+            }
+            
+            if (value) {
+                input.value = '₱' + value;
+            } else {
+                input.value = '₱';
             }
         }
 
-        function checkLoginAttempts(msg) {
+        function checkLoginAttempts() {
             if (loginAttempts >= 3) {
-                msg.style.color = 'var(--warning-color)';
-                msg.textContent = 'Too many failed attempts. Redirecting to Forgot Password...';
+                showCustomPrompt('⊘ Too many failed attempts. Redirecting to Forgot Password...');
                 setTimeout(() => {
                     showForgotPassword();
                     loginAttempts = 0;
@@ -1770,11 +1983,10 @@
             const identifier = document.getElementById('passwordResetEmail').value.trim();
             const msg = document.getElementById('loginMsg');
             if (!identifier) {
-                alert('Please enter your username or email.');
+                showCustomPrompt('Please enter your username or email.');
                 return;
             }
 
-            // Resolve to an email if possible
             let targetEmail = '';
             if (identifier.includes('@')) {
                 targetEmail = identifier;
@@ -1786,11 +1998,10 @@
             }
 
             if (!targetEmail) {
-                alert('No account found for that username/email (simulated).');
+                showCustomPrompt('No account found for that username/email (simulated).');
                 return;
             }
 
-            // Simulate sending reset
             closeModal('passwordResetModal');
             msg.style.color = 'var(--primary-color)';
             msg.textContent = `Password reset link sent to ${targetEmail} (simulated).`;
@@ -1801,21 +2012,22 @@
             const forgotMsg = document.getElementById('forgotMsg');
             forgotMsg.textContent = '';
             if (!identifier) {
-                forgotMsg.style.color = 'var(--danger-color)';
-                forgotMsg.textContent = 'Please enter username or email.';
+                showCustomPrompt('✕ Please enter username or email.');
                 return;
             }
 
             document.getElementById('passwordResetEmail').value = identifier;
-            // Reuse sendPasswordReset logic
             sendPasswordReset();
             forgotMsg.style.color = 'var(--primary-color)';
-            forgotMsg.textContent = 'Password reset link sent (simulated).';
+            forgotMsg.textContent = '✓ Password reset link sent (simulated).';
         }
 
         function handleLogout() {
             if (confirm('Are you sure you want to logout?')) {
+                saveNotifications();
+                saveMyOffers();
                 localStorage.removeItem('gartradeUser');
+                localStorage.removeItem('gartradeCurrentUserId');
                 currentUser = "Guest"; 
                 loggedUserEmail = ""; 
                 isVerified = false;
@@ -1834,28 +2046,125 @@
             }
         }
 
+        function handleSecondaryIdUpload(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                const dataUrl = e.target.result;
+                const preview = document.getElementById('secondaryIdPreview');
+                if (preview) {
+                    preview.src = dataUrl;
+                    preview.style.display = 'block';
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+
         function verifyAccount() {
-            const fileInput = document.getElementById('verificationIdUpload');
+            const verificationFileInput = document.getElementById('verificationIdUpload');
+            const secondaryFileInput = document.getElementById('secondaryIdUpload');
             const code = document.getElementById('verificationCode').value;
 
-            if (!fileInput || !fileInput.files || fileInput.files.length === 0) {
-                alert('Please upload a valid government-issued ID to complete verification.');
+            if (!verificationFileInput || !verificationFileInput.files || verificationFileInput.files.length === 0) {
+                showCustomPrompt('Please upload a valid government-issued ID to complete verification.');
                 return;
             }
 
-            const file = fileInput.files[0];
+            if (!secondaryFileInput || !secondaryFileInput.files || secondaryFileInput.files.length === 0) {
+                showCustomPrompt('Please upload your secondary ID picture.');
+                return;
+            }
+
+            const primaryFile = verificationFileInput.files[0];
+            const secondaryFile = secondaryFileInput.files[0];
+
+            if (!primaryFile.type.startsWith('image/')) {
+                showCustomPrompt('✕ Invalid file type. Please upload an image file (JPG, PNG, etc.).');
+                return;
+            }
+
+            if (!secondaryFile.type.startsWith('image/')) {
+                showCustomPrompt('✕ Invalid secondary ID file type. Please upload an image file (JPG, PNG, etc.).');
+                return;
+            }
+
+            if (primaryFile.size > 5 * 1024 * 1024) {
+                showCustomPrompt('✕ Primary ID file too large. Maximum size is 5MB.');
+                return;
+            }
+
+            if (secondaryFile.size > 5 * 1024 * 1024) {
+                showCustomPrompt('✕ Secondary ID file too large. Maximum size is 5MB.');
+                return;
+            }
+            
             const reader = new FileReader();
             reader.onload = function(e) {
                 const idDataUrl = e.target.result;
-                isVerified = true;
-                const storedUser = JSON.parse(localStorage.getItem('gartradeUser')) || {};
-                storedUser.verified = true;
-                storedUser.idDocument = idDataUrl; // store ID data (simulated, local only)
-                localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
-
-                alert('✅ Account verified successfully with uploaded ID!');
-                closeModal('verificationModal');
-                updateVerificationBadge();
+                
+                const img = new Image();
+                img.onload = function() {
+                    
+                    const width = img.width;
+                    const height = img.height;
+                    const aspectRatio = width / height;
+                    
+                    if (aspectRatio < 1.2) {
+                        showCustomPrompt('✕ Invalid ID document. Please upload a clear photo of your government-issued ID (Driver License, Passport, National ID, etc.).\n\nNote: ID documents are typically landscape orientation.');                       
+                        return;
+                    }
+                    
+                    const canvas = document.createElement('canvas');
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    ctx.drawImage(img, 0, 0);
+                    
+                    const imageData = ctx.getImageData(0, 0, 100, 100);
+                    const data = imageData.data;
+                    let brightness = 0;
+                    for (let i = 0; i < data.length; i += 4) {
+                        brightness += (data[i] + data[i+1] + data[i+2]) / 3;
+                    }
+                    brightness /= (data.length / 4);
+                    
+                    if (brightness < 30 || brightness > 225) {
+                        showCustomPrompt('✕ Image quality issue detected. Please upload a clear, well-lit photo of your ID.');                       
+                        return;
+                    }
+                    
+                    isVerified = true;
+                    const storedUser = JSON.parse(localStorage.getItem('gartradeUser')) || {};
+                    storedUser.verified = true;
+                    storedUser.idDocument = idDataUrl;
+                    
+                    const secondaryReader = new FileReader();
+                    secondaryReader.onload = function(secondaryEvent) {
+                        const secondaryIdDataUrl = secondaryEvent.target.result;
+                        storedUser.secondaryId = secondaryIdDataUrl;
+                        localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+                        
+                        loadAllUsers();
+                        const userIndex = allUsersData.findIndex(u => u.email === storedUser.email);
+                        if (userIndex !== -1) {
+                            allUsersData[userIndex].verified = true;
+                            allUsersData[userIndex].idDocument = idDataUrl;
+                            allUsersData[userIndex].secondaryId = secondaryIdDataUrl;
+                            saveAllUsers();
+                        }
+                        
+                        showCustomPrompt('✓ Account verified successfully with uploaded IDs!');
+                        closeModal('verificationModal');
+                        updateVerificationBadge();
+                    };
+                    secondaryReader.readAsDataURL(document.getElementById('secondaryIdUpload').files[0]);
+                };
+                img.onerror = function() {
+                    showCustomPrompt('✕ Failed to process image. Please try with a different file.');
+                };
+                img.src = idDataUrl;
             };
             reader.readAsDataURL(file);
         }
@@ -1871,7 +2180,7 @@
 
         function checkVerification(action) {
             if (!isVerified) {
-                alert(`⚠ You must verify your account before you can ${action}. Click "Verify Account" in your profile menu.`);
+                showCustomPrompt(`⚠ You must verify your account before you can ${action}. Click "Verify Account" in your profile menu.`);
                 return false;
             }
             return true;
@@ -1896,7 +2205,6 @@
             renderTrades();
             renderTradeHistory();
             renderMyOffers();
-            // Also ensure header dropdowns are populated
             renderOffersDropdown();
             renderHistoryDropdown();
             updateProfilePhotoUI();
@@ -1916,7 +2224,7 @@
 
             if (filteredTrades.length === 0) {
                 listElement.innerHTML = `<div class="empty-state">
-                    <div class="empty-state-icon">🔍</div>
+                    <div class="empty-state-icon">○</div>
                     <p>No listings found matching: <strong>${searchFilter}</strong></p>
                 </div>`;
                 return;
@@ -1977,7 +2285,7 @@
             if (content) {
                 if (userHistory.length === 0) {
                     content.innerHTML = `<div class="empty-state">
-                        <div class="empty-state-icon">📜</div>
+                        <div class="empty-state-icon">■</div>
                         <p>No completed trades yet.</p>
                     </div>`;
                 } else {
@@ -2032,13 +2340,16 @@
                         `;
 
                         offersForTrade.forEach(offer => {
+                            const isItemSold = trade.sold;
+                            const acceptButtonDisabled = isItemSold ? 'disabled' : '';
+                            const acceptButtonStyle = isItemSold ? 'opacity: 0.5; cursor: not-allowed;' : '';
                             html += `
                                 <div class="offer-item">
                                     <p style="margin: 0;"><strong>${offer.fromUser}</strong> made an offer:</p>
                                     <p style="margin: 5px 0; font-style: italic; color: var(--text-muted);">"${offer.offer}"</p>
-                                    <p style="margin: 5px 0; font-size: 12px; color: var(--text-muted);">Status: <strong>${offer.status}</strong></p>
+                                    <p style="margin: 5px 0; font-size: 12px; color: var(--text-muted);">Status: <strong>${offer.status}</strong>${isItemSold ? ' - Item Sold' : ''}</p>
                                     <div class="offer-actions">
-                                        <button class="btn btn-success" onclick="handleOfferAction(${offer.id}, 'accept')">Accept</button>
+                                        <button class="btn btn-success" onclick="handleOfferAction(${offer.id}, 'accept')" ${acceptButtonDisabled} style="${acceptButtonStyle}" title="${isItemSold ? 'This item has been sold' : 'Accept this offer'}">Accept</button>
                                         <button class="btn btn-delete" onclick="handleOfferAction(${offer.id}, 'reject')">Reject</button>
                                         <button class="btn btn-secondary" onclick="startMessage('${offer.fromUser}', 'Re: ${trade.title}')">Reply</button>
                                     </div>
@@ -2063,7 +2374,12 @@
             const trade = findTrade(offer.tradeId);
 
             if (action === 'accept') {
-                alert(`✅ Offer accepted from ${offer.fromUser}! Proceeding to payment authorization.`);
+                if (trade && trade.sold) {
+                    showCustomPrompt('✕ This item has already been sold.');
+                    return;
+                }
+                
+                showCustomPrompt(`✓ Offer accepted from ${offer.fromUser}! Proceeding to payment authorization.`);
 
                 const notification = {
                     id: offer.id,
@@ -2076,10 +2392,11 @@
                 openAuthorizationModal(notification);
                 myOffers[offerIndex].status = 'Accepted';
             } else if (action === 'reject') {
-                alert(`❌ Offer rejected from ${offer.fromUser}.`);
+                showCustomPrompt(`❌ Offer rejected from ${offer.fromUser}.`);
                 myOffers.splice(offerIndex, 1);
             }
             
+            saveMyOffers();
             renderMyOffers();
         }
 
@@ -2093,6 +2410,8 @@
             countElement.textContent = userNotifications.length;
             badgeElement.style.display = userNotifications.length > 0 ? 'block' : 'none';
             badgeElement.textContent = userNotifications.length > 9 ? '9+' : userNotifications.length;
+            
+
 
             if (userNotifications.length === 0) {
                 content.innerHTML = '<div style="text-align: center; padding: 15px; color: var(--text-muted);">No new notifications.</div>';
@@ -2112,11 +2431,6 @@
                 itemDiv.innerHTML = `
                     <p style="margin: 0;"><strong>${notification.fromUser}</strong> sent a ${notification.status === 'bid' ? 'bid' : 'trade request'} for <strong>${trade.title}</strong>.</p>
                     <p style="margin: 5px 0 0; font-style: italic; color: var(--text-muted);">Offer: ${notification.offer}</p>
-                    <div class="notification-actions">
-                        <button class="btn btn-success" onclick="handleNotificationAction(${notification.id}, 'accept');">Accept</button>
-                        <button class="btn btn-delete" onclick="handleNotificationAction(${notification.id}, 'reject');">Reject</button>
-                        <button class="btn btn-secondary" onclick="startMessage('${notification.fromUser}', 'Re: ${trade.title}', ${notification.id});">Reply</button>
-                    </div>
                 `;
                 content.appendChild(itemDiv);
             });
@@ -2176,18 +2490,19 @@
         function handleNotificationAction(notificationId, action) {
             const notificationIndex = notifications.findIndex(n => n.id === notificationId);
             if (notificationIndex === -1) {
-                alert("Error: Notification not found.");
+                showCustomPrompt("Error: Notification not found.");
                 return;
             }
             const notification = notifications[notificationIndex];
 
             if (action === 'accept') {
                 closeAllDropdowns();
-                alert(`You accepted the offer from ${notification.fromUser}!`);
+                showCustomPrompt(`You accepted the offer from ${notification.fromUser}!`);
                 openAuthorizationModal(notification);
             } else if (action === 'reject') {
-                alert(`Trade Rejected: You declined the offer from ${notification.fromUser}.`);
+                showCustomPrompt(`Trade Rejected: You declined the offer from ${notification.fromUser}.`);
                 notifications.splice(notificationIndex, 1);
+                saveNotifications();
                 renderNotifications(true);
             }
         }
@@ -2196,14 +2511,14 @@
             const trade = findTrade(notification.tradeId);
             closeAllDropdowns();
             
-            let amount = "$0.00";
-            const offerMatch = notification.offer.match(/\$?(\d+(\.\d{1,2})?)/);
+            let amount = "₱0.00";
+            const offerMatch = notification.offer.match(/₱?(\d+(\.\d{1,2})?)/);  
             if (offerMatch) {
-                amount = `$${parseFloat(offerMatch[1]).toFixed(2)}`;
+                amount = `₱${parseFloat(offerMatch[1]).toFixed(2)}`;
             } else if (trade && trade.tradeValue) {
                 amount = trade.tradeValue;
             } else {
-                amount = "$10.00"; 
+                amount = "₱10.00"; 
             }
 
             document.getElementById('authItemTitle').textContent = trade ? trade.title : "Trade Item";
@@ -2223,11 +2538,11 @@
             const cvc = document.getElementById('cardCVC').value;
 
             if (cvc !== '123') {
-                alert('❌ Payment Failed: Invalid CVC. Use 123 to authorize.');
+                showCustomPrompt('✕ Payment Failed: Invalid CVC. Use 123 to authorize. (PHP Transaction)');
                 return;
             }
 
-            alert('✅ Payment Authorized!');
+            showCustomPrompt('✓ Payment Authorized!');
             closeModal('authorizationModal');
 
             let targetNotification = notifications.find(n => n.id === notificationId);
@@ -2235,15 +2550,31 @@
             if (!targetNotification && pendingTradeNotification && pendingTradeNotification.id === notificationId) {
                 targetNotification = pendingTradeNotification; 
                 if (targetNotification.owner !== currentUser) {
-                    notifications.unshift(targetNotification); 
+                    notifications.unshift(targetNotification);
+                    saveNotifications();
                 }
                 pendingTradeNotification = null; 
             }
+            
+            if (!targetNotification) {
+                const offerInMyOffers = myOffers.find(o => o.id === notificationId);
+                if (offerInMyOffers) {
+                    targetNotification = offerInMyOffers;
+                }
+            }
 
             if (!targetNotification) {
-                alert("Error: Transaction data not found.");
+                showCustomPrompt("Error: Transaction is not stored");
                 return;
             }
+
+            const transactionData = {
+                transactionId: notificationId,
+                timestamp: new Date().toISOString(),
+                status: 'authorized',
+                notification: targetNotification
+            };
+            localStorage.setItem('gartradeTransaction_' + notificationId, JSON.stringify(transactionData));
 
             const trade = findTrade(targetNotification.tradeId);
             if (trade) {
@@ -2251,7 +2582,7 @@
                 document.getElementById('finalVerifyButton').onclick = () => finalizeTrade(targetNotification.id);
                 openModal('verificationTradeModal');
             } else {
-                alert("Error: Trade listing not found.");
+                showCustomPrompt("Error: Trade listing not found.");
             }
             
             renderNotifications(true);
@@ -2259,18 +2590,31 @@
 
         function finalizeTrade(notificationId) {
             const notificationIndex = notifications.findIndex(n => n.id === notificationId);
-            if (notificationIndex === -1) {
-                alert("Error: Trade notification not found.");
+            let notification = null;
+            
+            if (notificationIndex !== -1) {
+                notification = notifications[notificationIndex];
+            } else {
+                const offerIndex = myOffers.findIndex(o => o.id === notificationId);
+                if (offerIndex !== -1) {
+                    notification = myOffers[offerIndex];
+                }
+            }
+            
+            if (!notification) {
+                showCustomPrompt("Error: Trade notification not found.");
                 closeModal('verificationTradeModal');
                 return;
             }
 
-            const notification = notifications[notificationIndex];
             const trade = findTrade(notification.tradeId);
 
             if (!trade || trade.sold) {
-                alert("Error: Listing not found or already sold.");
-                notifications.splice(notificationIndex, 1);
+                showCustomPrompt("Error: Listing not found or already sold.");
+                if (notificationIndex !== -1) {
+                    notifications.splice(notificationIndex, 1);
+                }
+                saveNotifications();
                 renderNotifications(true);
                 closeModal('verificationTradeModal');
                 return;
@@ -2291,10 +2635,26 @@
 
             saveTrades();
             saveTradeHistory();
+            const transactionData = {
+                transactionId: notificationId,
+                timestamp: new Date().toISOString(),
+                status: 'completed',
+                seller: trade.owner,
+                buyer: notification.fromUser,
+                tradeId: trade.id,
+                tradeTitle: trade.title,
+                value: trade.tradeValue
+            };
+            localStorage.setItem('gartradeTransaction_' + notificationId, JSON.stringify(transactionData));
 
-            alert(`✅ SUCCESS: Trade Completed! "${trade.title}" has been transferred to ${notification.fromUser}.`);
-            notifications.splice(notificationIndex, 1);
+            showCustomPrompt(`✓ SUCCESS: Trade Completed! "${trade.title}" has been transferred to ${notification.fromUser}.`);
+            
+            if (notificationIndex !== -1) {
+                notifications.splice(notificationIndex, 1);
+            }
+            
             pendingTradeNotification = null;
+            saveNotifications();
             closeModal('verificationTradeModal');
             
             renderTrades();
@@ -2328,7 +2688,21 @@
             };
 
             myOffers.unshift(newOffer);
+            saveMyOffers();
+            
+            const notification = {
+                id: newId,
+                owner: currentUser,
+                fromUser: botUser,
+                tradeId: targetTrade.id,
+                offer: offerText,
+                status: 'trade'
+            };
+            notifications.unshift(notification);
+            saveNotifications();
+            
             renderMyOffers();
+            renderNotifications(true);
         }
 
         function startLiveBotLoop() {
@@ -2337,40 +2711,66 @@
 
                 const userActiveTrades = trades.filter(t => t.owner === currentUser && !t.sold);
                 
-                if (userActiveTrades.length > 0 && Math.random() > 0.7) {
+                if (userActiveTrades.length > 0 && Math.random() > 0.6) {
                     const targetTrade = userActiveTrades[Math.floor(Math.random() * userActiveTrades.length)];
                     generateRandomBotOffer(targetTrade);
                 }
-            }, 15000); 
+            }, 8000); 
         }
 
         function generateBotResponse(messageBody, user, subject) {
             const normalizedMessage = messageBody.toLowerCase();
             const subjectMatch = subject.match(/Trade Offer for (.+)/i);
             const item = subjectMatch ? subjectMatch[1] : 'your listed item';
-            
+
             if (normalizedMessage.includes('hi') || normalizedMessage.includes('hello') || normalizedMessage.includes('hey')) {
                 const greetings = [
-                    `Hello! Thanks for reaching out about ${item}. How can I assist you?`,
-                    `Hi there! Interested in ${item}? Let's discuss!`,
-                    `Hey! Let's talk about the trade for ${item}.`,
+                    `Hey! Yeah, I'm definitely interested in the ${item}. What's the best you can do on this?`,
+                    `Hi there! So I saw your ${item} listing and it looks pretty good. Can we work something out?`,
+                    `Hello! I've been looking for something like ${item}. Are you open to negotiations?`,
+                    `What's up! Your ${item} caught my eye. Let me know your thoughts! 😊`,
                 ];
                 return greetings[Math.floor(Math.random() * greetings.length)];
             }
 
-            if (normalizedMessage.includes('offer') || normalizedMessage.includes('value') || normalizedMessage.includes('price')) {
-                const offers = [
-                    `What's your best offer for ${item}?`,
-                    `I'm looking for a fair trade. What do you propose?`,
-                    `Please submit your official offer through the trade request system.`,
+            if (normalizedMessage.includes('offer') || normalizedMessage.includes('value') || normalizedMessage.includes('price') || normalizedMessage.includes('cost') || normalizedMessage.includes('much')) {
+                const priceQuestions = [
+                    `I'm thinking somewhere around the range you mentioned, but I might be able to add a little more. What do you say?`,
+                    `The price seems fair, honestly. I was just wondering if there's any room for negotiation? 🤔`,
+                    `That's actually a solid deal. I'm ready to move forward whenever you are!`,
+                    `Yeah, the value checks out for me. When can we complete this trade?`,
+                    `I've seen similar listings going for that price. I'm definitely interested!`,
                 ];
-                return offers[Math.floor(Math.random() * offers.length)];
+                return priceQuestions[Math.floor(Math.random() * priceQuestions.length)];
+            }
+
+            if (normalizedMessage.includes('condition') || normalizedMessage.includes('detail') || normalizedMessage.includes('photo') || normalizedMessage.includes('picture')) {
+                const detailQuestions = [
+                    `The photos look great, by the way. Really gives a good idea of what I'm getting.`,
+                    `Thanks for those details! Everything checks out perfectly for me.`,
+                    `I appreciate you being thorough with the information. Looks like exactly what I need!`,
+                    `The condition looks immaculate from the pics. When can we complete the trade?`,
+                ];
+                return detailQuestions[Math.floor(Math.random() * detailQuestions.length)];
             }
             
+            if (normalizedMessage.includes('ready') || normalizedMessage.includes('proceed') || normalizedMessage.includes('deal') || normalizedMessage.includes('accept')) {
+                const readyResponses = [
+                    `Awesome! I'm pumped about this. Let's get it finalized asap! 🎉`,
+                    `Perfect! I'm ready whenever. Let's lock this in!`,
+                    `Agreed! This is going to be a great trade. What's next?`,
+                    `Excellent! I'm good to go. Let's make it happen! ✓`,
+                ];
+                return readyResponses[Math.floor(Math.random() * readyResponses.length)];
+            }
+
             const fallbacks = [
-                `Thanks for your message! Let's finalize this trade for ${item}.`,
-                `Noted! Submit your official offer on the listing page.`,
-                `Great! Looking forward to completing this trade.`,
+                `Thanks for getting back to me! This trade is looking really good. 😊`,
+                `I'm really interested in this. Let me know what works best for you!`,
+                `Sounds good to me! I'm confident about this transaction.`,
+                `Cool, cool. I think we're on the same page here. Let's move forward!`,
+                `Great feedback! Looking forward to working this out with you.`,
+                `Yeah, I'm feeling good about this trade. When can we make it official?`,
             ];
             return fallbacks[Math.floor(Math.random() * fallbacks.length)];
         }
@@ -2479,7 +2879,7 @@
 
         function handleCenterActionButton() {
             if (currentUser === "Guest") {
-                alert("Please log in to add a trade listing.");
+                showCustomPrompt("Please log in to add a trade listing.");
                 return;
             }
             if (!checkVerification("add a listing")) return;
@@ -2497,7 +2897,7 @@
             const imageFile = document.getElementById('newTradeImage').files[0]; 
             
             if (!title || !description) {
-                alert('Please enter a title and description.');
+                showCustomPrompt('Please enter a title and description.');
                 return;
             }
 
@@ -2532,7 +2932,7 @@
             closeModal('addTradeModal');
             document.getElementById('addTradeForm').reset();
             renderTrades();
-            alert(`✅ New Trade Listing "${title}" added successfully!`);
+            showCustomPrompt(`✓ New Trade Listing "${title}" added successfully!`);
         }
 
         function openTradeRequestModal(tradeId) {
@@ -2542,7 +2942,7 @@
             if (!trade || trade.sold) return;
 
             if (currentUser === "Guest") {
-                alert("Please log in to submit a trade request.");
+                showCustomPrompt("Please log in to submit a trade request.");
                 return;
             }
 
@@ -2569,12 +2969,12 @@
             const trade = findTrade(tradeId);
 
             if (!trade || !offer) {
-                alert("Please enter a valid offer.");
+                showCustomPrompt("Please enter a valid offer.");
                 return;
             }
 
             if (trade.owner === currentUser) {
-                alert("You cannot trade with yourself!");
+                showCustomPrompt("You cannot trade with yourself!");
                 return;
             }
 
@@ -2589,8 +2989,21 @@
             };
 
             myOffers.unshift(newOffer);
+            saveMyOffers();
+ 
+            const tradeOwnerNotification = {
+                id: newId,
+                owner: trade.owner,
+                fromUser: currentUser,
+                tradeId: trade.id,
+                offer: offer,
+                status: 'trade'
+            };
             
-            alert(`✅ Trade request submitted! Awaiting response from ${trade.owner}.`);
+            notifications.unshift(tradeOwnerNotification);
+            saveNotifications();
+            
+            showCustomPrompt(`✓ Trade request submitted! Awaiting response from ${trade.owner}.`);
             
             closeModal('tradeRequestModal');
             document.getElementById('tradeRequestForm').reset();
@@ -2623,7 +3036,7 @@
 
             trade.sold = !trade.sold;
             document.getElementById('markSoldBtn').textContent = trade.sold ? 'Mark as Active' : 'Mark as Sold';
-            alert(`Listing "${trade.title}" marked as ${trade.sold ? 'Sold' : 'Active'}.`);
+            showCustomPrompt(`Listing "${trade.title}" marked as ${trade.sold ? 'Sold' : 'Active'}.`);
             saveTrades();
             renderTrades();
         }
@@ -2634,7 +3047,7 @@
             const trade = findTrade(tradeId);
 
             if (!trade) {
-                alert("Error: Listing not found.");
+                showCustomPrompt("Error: Listing not found.");
                 return;
             }
 
@@ -2646,7 +3059,7 @@
             
             closeModal('manageTradeModal');
             renderTrades();
-            alert(`✅ Listing "${trade.title}" updated successfully!`);
+            showCustomPrompt(`✓ Listing "${trade.title}" updated successfully!`);
         }
 
         function confirmDeleteTrade() {
@@ -2660,7 +3073,7 @@
                     saveTrades();
                     closeModal('manageTradeModal');
                     renderTrades();
-                    alert("✅ Listing deleted.");
+                    showCustomPrompt("✓ Listing deleted.");
                 }
             }
         }
@@ -2677,10 +3090,20 @@
                 storedUser.notifications = notificationsPref;
                 storedUser.photoUrl = defaultProfilePhotoUrl; 
                 localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+
+                loadAllUsers();
+                const userIndex = allUsersData.findIndex(u => u.id === storedUser.id);
+                if (userIndex !== -1) {
+                    allUsersData[userIndex].email = newEmail;
+                    allUsersData[userIndex].notifications = notificationsPref;
+                    allUsersData[userIndex].photoUrl = defaultProfilePhotoUrl;
+                    saveAllUsers();
+                }
+                
                 loggedUserEmail = newEmail;
-                alert('✅ Settings saved successfully!');
+                showCustomPrompt('✓ Settings saved successfully!');
             } else {
-                alert('✅ Settings saved (simulated).');
+                showCustomPrompt('✓ Settings saved (simulated).');
             }
 
             closeModal('settingsModal');
@@ -2695,34 +3118,37 @@
             const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
 
             if (!storedUser || currentUser === "Guest") {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'You must be logged in to change password.';
+                showCustomPrompt('✕ You must be logged in to change password.');
                 return;
             }
             
-            if (newPass.length < 6) {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'New password must be at least 6 characters.';
+            if (newPass.length < 8) {
+                showCustomPrompt('✕ New password must be at least 8 characters.');
                 return;
             }
 
             if (currentPass !== storedUser.password) {
-                msg.style.color = 'var(--danger-color)';
-                msg.textContent = 'Current password incorrect.';
+                showCustomPrompt('✕ Current password incorrect.');
                 return;
             }
 
             if (currentPass === newPass) {
-                msg.style.color = 'var(--warning-color)';
-                msg.textContent = 'New password cannot be the same.';
+                showCustomPrompt('⊘ New password cannot be the same.');
                 return;
             }
 
             storedUser.password = newPass;
             localStorage.setItem('gartradeUser', JSON.stringify(storedUser));
+
+            loadAllUsers();
+            const userIndex = allUsersData.findIndex(u => u.id === storedUser.id);
+            if (userIndex !== -1) {
+                allUsersData[userIndex].password = newPass;
+                saveAllUsers();
+            }
             
             msg.style.color = 'var(--success-color)';
-            msg.textContent = '✅ Password changed! Logging out...';
+            msg.textContent = '✓ Password changed! Logging out...';
 
             document.getElementById('settingCurrentPassword').value = '';
             document.getElementById('settingNewPassword').value = '';
@@ -2742,7 +3168,7 @@
                 const imageUrl = e.target.result;
                 defaultProfilePhotoUrl = imageUrl;
                 updateProfilePhotoUI();
-                alert('✅ Profile photo updated! Save settings to confirm.');
+                showCustomPrompt('✅ Profile photo updated! Save settings to confirm.');
             }
             reader.readAsDataURL(file);
         }
@@ -2797,10 +3223,27 @@
             }
         }
 
+        function toggleLoginPassword() {
+            const passwordInput = document.getElementById('loginPassword');
+            const toggleIcon = document.getElementById('togglePasswordIcon');
+            
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                toggleIcon.textContent = '◉';
+            } else {
+                passwordInput.type = 'password';
+                toggleIcon.textContent = '◉';
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', () => {
             const loginContainer = document.getElementById('loginContainer');
             const appContainer = document.getElementById('appContainer');
 
+            loadAllUsers();
+            loadMyOffers();
+            loadNotifications();
+            
             const storedUser = JSON.parse(localStorage.getItem('gartradeUser'));
             if (storedUser) {
                 currentUser = storedUser.username || storedUser.name;
